@@ -11,13 +11,15 @@ spring:
       max-file-size: 10MB #???????????10M
       max-request-size: 100MB  #???????????10M
 
+
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://121.43.185.118:3306/medicine_online?useSSL=false&allowPublicKeyRetrieval=true&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
-      username: root_wrj
-      password: wangruijiang123W@
+      url: jdbc:mysql://localhost:3306/tcom-admin?useSSL=false&allowPublicKeyRetrieval=true&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+      username: root
+      password: password
+
       initial-size: 5
       min-idle: 5
       max-active: 20
@@ -87,6 +89,7 @@ auth:
     - /doc.html
     - /
     - /common/**
+
 
 aliyun:
   oss:
