@@ -75,7 +75,8 @@ knife4j:
 
 auth:
   ignore_urls:
-    - /zhu/auth/login
+    - /login
+    - /test
     - /zhu/auth/captcha
     - /actuator/**
     - /v3/api-docs/**
