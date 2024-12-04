@@ -1,6 +1,7 @@
 package top.zhu.tcomadminapi.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,7 +36,7 @@ public class QuestionBank {
 
     // 选项类型
     @Schema(description = "选项类型,0单选 1多选 2填空")
-    @TableField("option_Type")
+    @TableField("option_type")
     private Integer optionType;
 
     // 题目内容
@@ -48,7 +49,8 @@ public class QuestionBank {
     @TableField("answer")
     private String answer;
 
-    // 字数限制
+    // 字数限制（用于填空题的空格计算）
+    @JsonIgnore  // 忽略前端传入的 word_limit 字段
     @Schema(description = "字数限制")
     @TableField("word_limit")
     private Integer wordLimit;

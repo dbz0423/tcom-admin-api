@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.zhu.tcomadminapi.common.result.PageResult;
 import top.zhu.tcomadminapi.mapper.QuestionBankMapper;
 import top.zhu.tcomadminapi.mapper.QuestionBankOptionMapper;
@@ -138,7 +139,109 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionBankMapper, Questio
         return new PageResult<>(questionPage.getTotal(), questionVOList);
     }
 
+    @Override
+    @Transactional
+    public void addQuestion(QuestionBank questionBank) {
+        // 1. 数据验证（不包括 word_limit 的验证）
+        validateQuestionForAdd(questionBank);
 
+        // 2. 处理填空题的 word_limit
+        if (questionBank.getOptionType() == 2) {
+            // 计算 question 中 $ 的数量
+            int wordLimit = countPlaceholders(questionBank.getQuestion());
+            questionBank.setWordLimit(wordLimit);
+
+            // 验证 answer 的长度是否等于 word_limit
+            if (questionBank.getAnswer().length() != wordLimit) {
+                throw new RuntimeException("填空题的答案字数必须与题干中的占位符数量相等");
+            }
+        }
+
+        // 3. 插入题目
+        questionBankMapper.insert(questionBank);
+
+        // 4. 处理选择题的选项插入
+        if (questionBank.getOptionType() == 0 || questionBank.getOptionType() == 1) {
+            List<QuestionBankOption> options = questionBank.getOptions();
+            if (options != null && !options.isEmpty()) {
+                for (QuestionBankOption option : options) {
+                    option.setBankId(questionBank.getPkId());  // 设置外键关联
+                    questionBankOptionMapper.insert(option);
+                }
+            } else {
+                throw new RuntimeException("选择题必须包含选项");
+            }
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteQuestion(Integer questionId) {
+        // 1. 检查题目是否存在
+        QuestionBank questionBank = questionBankMapper.selectById(questionId);
+        if (questionBank == null) {
+            throw new RuntimeException("题目不存在");
+        }
+
+        // 2. 删除选项（如果是选择题）
+        if (questionBank.getOptionType() == 0 || questionBank.getOptionType() == 1) {
+            int deletedOptions = questionBankOptionMapper.delete(
+                    new QueryWrapper<QuestionBankOption>().eq("bank_id", questionId)
+            );
+            // 可选：记录删除的选项数量
+        }
+
+        // 3. 删除题目
+        int deletedQuestions = questionBankMapper.deleteById(questionId);
+        if (deletedQuestions == 0) {
+            throw new RuntimeException("删除题目失败");
+        }
+
+        // 4. 事务自动提交
+    }
+
+    @Override
+    @Transactional
+    public void updateQuestion(QuestionBank questionBank) {
+        // 1. 数据验证（不包括 word_limit 的验证）
+        validateQuestionForUpdate(questionBank);
+
+        // 2. 处理填空题的 word_limit
+        if (questionBank.getOptionType() == 2) {
+            // 计算 question 中 $ 的数量
+            int wordLimit = countPlaceholders(questionBank.getQuestion());
+            questionBank.setWordLimit(wordLimit);
+
+            // 验证 answer 的长度是否等于 word_limit
+            if (questionBank.getAnswer().length() != wordLimit) {
+                throw new RuntimeException("填空题的答案字数必须与题干中的占位符数量相等");
+            }
+
+            // 删除原有的选项（如果有）
+            questionBankOptionMapper.delete(new QueryWrapper<QuestionBankOption>().eq("bank_id", questionBank.getPkId()));
+        } else if (questionBank.getOptionType() == 0 || questionBank.getOptionType() == 1) {
+            // 选择题的处理逻辑
+            // 1. 删除原有的选项
+            questionBankOptionMapper.delete(new QueryWrapper<QuestionBankOption>().eq("bank_id", questionBank.getPkId()));
+
+            // 2. 插入新的选项
+            List<QuestionBankOption> newOptions = questionBank.getOptions();
+            if (newOptions != null && !newOptions.isEmpty()) {
+                for (QuestionBankOption option : newOptions) {
+                    option.setBankId(questionBank.getPkId()); // 设置外键关联
+                    questionBankOptionMapper.insert(option);
+                }
+            } else {
+                throw new RuntimeException("选择题必须包含选项");
+            }
+        }
+
+        // 3. 更新题目
+        int updateCount = questionBankMapper.updateById(questionBank);
+        if (updateCount == 0) {
+            throw new RuntimeException("更新题目失败");
+        }
+    }
 
 
     // 将题目类型（数字）转换为中文
@@ -188,5 +291,46 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionBankMapper, Questio
         vo.setAnswer(questionBank.getAnswer());
         vo.setCreateTime(formatDate(questionBank.getCreateTime()));
         return vo;
+    }
+
+    // 数据验证 - 新增
+    private void validateQuestionForAdd(QuestionBank questionBank) {
+        // 验证 question 字段
+        if (questionBank.getQuestion() == null || questionBank.getQuestion().trim().isEmpty()) {
+            throw new RuntimeException("题目内容不能为空");
+        }
+        if (questionBank.getQuestion().length() > 60) {
+            throw new RuntimeException("题目内容不能超过60个字符");
+        }
+
+        // 根据 option_type 进行不同的验证
+        if (questionBank.getOptionType() == 0 || questionBank.getOptionType() == 1) {
+            // 选择题的验证
+            // ...
+        } else if (questionBank.getOptionType() == 2) {
+            // 填空题需要验证 question 和 answer
+            if (questionBank.getAnswer() == null || questionBank.getAnswer().trim().isEmpty()) {
+                throw new RuntimeException("答案不能为空");
+            }
+            // 不再验证 word_limit，这将在后续计算
+        } else {
+            throw new RuntimeException("无效的选项类型");
+        }
+    }
+
+    // 数据验证 - 更新
+    private void validateQuestionForUpdate(QuestionBank questionBank) {
+        // 与新增时的验证类似
+        validateQuestionForAdd(questionBank);
+    }
+
+    private int countPlaceholders(String question) {
+        int count = 0;
+        for (char c : question.toCharArray()) {
+            if (c == '$') {
+                count++;
+            }
+        }
+        return count;
     }
 }

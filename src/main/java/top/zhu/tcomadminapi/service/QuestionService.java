@@ -16,4 +16,13 @@ public interface QuestionService {
     List<QuestionVO> getQuestions();
 
     PageResult<QuestionVO> getQuestionsByCriteria(int page, int size, Integer optionType, String keyword);
+
+    // 新增题目
+    void addQuestion(QuestionBank questionBank);
+
+    // 删除题目
+    void deleteQuestion(Integer questionId);
+
+    // 更新题目
+    void updateQuestion(QuestionBank questionBank);
 }
