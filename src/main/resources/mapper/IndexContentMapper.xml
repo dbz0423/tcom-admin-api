@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zhu.tcomadminapi.mapper.IndexContentMapper">
+
+    <!-- 插入首页内容 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="pkId">
+        INSERT INTO t_index_content (category_id, content_id, title, type, create_time, update_time)
+        VALUES (#{categoryId}, #{contentId}, #{title}, #{type}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!-- 根据专题数据插入首页内容 -->
+    <insert id="insertFromSubject">
+        INSERT INTO t_index_content (category_id, content_id, title, type, create_time, update_time)
+        VALUES (#{subject.categoryId}, #{subject.pkId}, #{subject.title}, #{subject.type}, #{subject.createTime}, #{subject.updateTime})
+    </insert>
+
+    <!-- 获取所有首页内容 -->
+    <select id="selectAll" resultType="top.zhu.tcomadminapi.model.entity.IndexContent">
+        SELECT * FROM t_index_content
+    </select>
+
+    <!-- 根据ID获取首页内容 -->
+    <select id="selectById" resultType="top.zhu.tcomadminapi.model.entity.IndexContent">
+        SELECT * FROM t_index_content WHERE pk_id = #{pkId}
+    </select>
+
+    <!-- 删除首页内容 -->
+    <delete id="deleteById">
+        DELETE FROM t_index_content WHERE pk_id = #{pkId}
+    </delete>
+
+</mapper>

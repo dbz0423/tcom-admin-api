@@ -183,13 +183,6 @@
             <version>${easyexcel.version}</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.springdoc</groupId>-->
-<!--            <artifactId>springdoc-openapi-ui</artifactId>-->
-<!--            <version>2.0.0</version>  &lt;!&ndash; 确保版本和Spring兼容 &ndash;&gt;-->
-<!--        </dependency>-->
-
-
 
     </dependencies>
 

@@ -23,4 +23,5 @@ public interface IndexCategoryMapper {
 
     // 查询所有分类
     List<IndexCategory> selectList(@Param("query") Object query);
+
 }

@@ -52,6 +52,15 @@ server:
 logging:
   config: classpath:log/logback-spring.xml
 
+
+
+#logging:
+#  level:
+#    org.springframework: TRACE
+#    io.swagger: TRACE
+#    com.github.xiaoymin: TRACE
+
+
 # springdoc-openapi????
 springdoc:
   swagger-ui:
@@ -67,7 +76,7 @@ springdoc:
 
 # knife4j???????????????
 knife4j:
-  enable: true
+  enable: false
   setting:
     language: zh_cn
   basic:
@@ -75,19 +84,30 @@ knife4j:
     username: admin   #???
     password: 123456  #??
 
+#auth:
+#  ignore_urls:
+#    - /zhu/auth/login
+#    - /zhu/auth/captcha
+#    - /actuator/**
+#    - /v3/api-docs/**
+#    - /webjars/**
+#    - /swagger/**
+#    - /swagger-resources/**
+#    - /swagger-ui.html
+#    - /swagger-ui/**
+#    - /doc.html
+#    - /
+#    - /common/**
+#
+
+
 auth:
   ignore_urls:
     - /zhu/auth/login
     - /zhu/auth/captcha
     - /actuator/**
-    - /v3/api-docs/**
     - /webjars/**
-    - /swagger/**
-    - /swagger-resources/**
-    - /swagger-ui.html
-    - /swagger-ui/**
     - /doc.html
-    - /
     - /common/**
 
 

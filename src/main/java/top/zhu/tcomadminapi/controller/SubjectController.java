@@ -13,7 +13,9 @@ import top.zhu.tcomadminapi.model.query.SubjectQuery;
 import top.zhu.tcomadminapi.model.vo.SubjectVO;
 import top.zhu.tcomadminapi.service.SubjectService;
 
-
+/**
+ * 控制器：处理与专题相关的 HTTP 请求
+ */
 @RestController
 @RequestMapping("/api/subject")
 @AllArgsConstructor

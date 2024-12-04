@@ -1,32 +1,18 @@
 package top.zhu.tcomadminapi.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+@Data
+@Schema(description = "首页分类修改")
 public class UpdateIndexCategoryDTO {
     private String name;
     private Integer isShow;
     private Integer sort;
 
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getIsShow() {
-        return isShow;
-    }
-
-    public void setIsShow(Integer isShow) {
-        this.isShow = isShow;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
 }

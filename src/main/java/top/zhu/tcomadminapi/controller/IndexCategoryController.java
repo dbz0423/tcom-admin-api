@@ -71,6 +71,7 @@ public class IndexCategoryController {
         return success ? ResponseEntity.ok("分类修改成功") : ResponseEntity.status(HttpStatus.NOT_FOUND).body("分类不存在");
     }
 
+
     /**
      * 删除首页分类
      *
