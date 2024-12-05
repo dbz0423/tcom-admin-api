@@ -10,7 +10,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
     /**
      * 查询所有菜单列表
      */
-    List<Menu> getMenuList(@Param("isEq") boolean isEq);
+    List<Menu> getMenuList();
 
     /**
      * 查询用户菜单列表

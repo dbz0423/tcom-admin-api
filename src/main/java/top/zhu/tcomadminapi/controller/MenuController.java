@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.zhu.tcomadminapi.common.result.Result;
-import top.zhu.tcomadminapi.enums.MenuTypeEnum;
 import top.zhu.tcomadminapi.model.vo.MenuVO;
 import top.zhu.tcomadminapi.security.user.ManagerDetail;
 import top.zhu.tcomadminapi.security.user.SecurityUser;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @Tag(name = "菜单管理")
 @RestController
-@RequestMapping("/menu")
+@RequestMapping("/v1/menu")
 @AllArgsConstructor
 public class MenuController {
 

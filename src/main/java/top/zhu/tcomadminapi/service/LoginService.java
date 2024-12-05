@@ -11,4 +11,12 @@ public interface LoginService {
      * @return
      */
     LoginTokenVO loginByAccount(LoginVO params);
+
+    /**
+     * 退出登录
+     *
+     * @param accessToken accessToken
+     */
+    void logout(String accessToken);
+
 }

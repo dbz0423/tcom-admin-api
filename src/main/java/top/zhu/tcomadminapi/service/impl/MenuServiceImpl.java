@@ -19,14 +19,7 @@ import java.util.List;
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
     @Override
     public List<MenuVO> getManagerMenuList(ManagerDetail manager) {
-        List<Menu> menuList;
-        // 系统管理员，拥有最高权限
-        if (manager.getIsEnabled().equals(SuperAdminEnum.YES.getValue())) {
-            menuList = baseMapper.getMenuList(false);
-        } else {
-            menuList = baseMapper.getManagerMenuList(manager.getPkId(),false);
-        }
-
+        List<Menu> menuList = baseMapper.getManagerMenuList(manager.getPkId(), false);
         return TreeUtils.build(MenuConvert.INSTANCE.convertList(menuList));
     }
 

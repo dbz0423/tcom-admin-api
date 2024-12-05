@@ -23,7 +23,7 @@
 
     <select id="getMenuList" resultType="top.zhu.tcomadminapi.model.entity.Menu">
         select * from t_menu
-        order by sort asc
+        order by pk_id
     </select>
 
     <select id="getManagerMenuList" resultType="top.zhu.tcomadminapi.model.entity.Menu">
@@ -34,7 +34,7 @@
                  left join t_manager_role t4 on t4.role_id = t3.pk_id
                  left join t_manager t5 on t4.manager_id = t5.pk_id
         where t5.pk_id = #{managerId}
-        order by t1.sort asc
+        order by t1.pk_id
     </select>
 
 

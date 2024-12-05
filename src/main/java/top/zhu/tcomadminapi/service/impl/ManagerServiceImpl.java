@@ -16,8 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ManagerServiceImpl extends BaseServiceImpl<ManagerMapper, Manager> implements ManagerService {
 
-    private final ManagerMapper managerMapper;
-
     @Override
     public ManagerVO getManagerInfo(ManagerDetail manager) {
         ManagerVO managerVO = new ManagerVO();

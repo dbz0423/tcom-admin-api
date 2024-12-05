@@ -43,4 +43,14 @@ public class LoginServiceImpl implements LoginService {
 
         return new LoginTokenVO(accessToken);
     }
+
+    @Override
+    public void logout(String accessToken) {
+        // 用户信息
+        ManagerDetail manager = tokenStoreCache.getUser(accessToken);
+
+        // 删除用户信息
+        tokenStoreCache.deleteUser(accessToken);
+
+    }
 }

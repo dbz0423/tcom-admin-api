@@ -48,7 +48,7 @@ public class MenuVO extends TreeNode<MenuVO> {
     @Min(value = 0, message = "排序值不能小于0")
     private Integer sort;
 
-    @Schema(description = "父级菜单名称")
+    @Schema(description = "父级菜单ID")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String parentName;
+    private String parentsId;
 }
