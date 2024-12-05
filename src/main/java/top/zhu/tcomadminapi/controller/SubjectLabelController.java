@@ -1,89 +1,126 @@
 package top.zhu.tcomadminapi.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import top.zhu.tcomadminapi.common.result.PageResult;
 import top.zhu.tcomadminapi.model.entity.SubjectLabel;
 import top.zhu.tcomadminapi.service.SubjectLabelService;
-import io.swagger.v3.oas.annotations.Parameter;
-import java.util.List;
-
-
 
 import java.util.List;
 
 /**
- * 控制器：处理与专题标签相关的 HTTP 请求
+ * 标签管理控制器
  */
 @RestController
-@RequestMapping("/api/subject-label")
+@RequestMapping("/subject-label")
 public class SubjectLabelController {
 
-    private final SubjectLabelService subjectLabelService;
+    @Autowired
+    private SubjectLabelService subjectLabelService;
 
     /**
-     * 构造函数注入 Service 层
-     *
-     * @param subjectLabelService 处理业务逻辑的 Service 类
+     * 新增标签
+     * @param subjectLabel 标签实体
+     * @return 返回操作结果
      */
-    public SubjectLabelController(SubjectLabelService subjectLabelService) {
-        this.subjectLabelService = subjectLabelService;
-    }
-
-    /**
-     * 添加新的专题标签
-     *
-     * @param subjectLabel 新的专题标签信息
-     * @return 返回 201 Created 状态
-     */
-    @Operation(summary = "添加新的专题标签", description = "创建一个新的专题标签")
+    @Operation(summary = "新增标签", description = "根据传入的标签实体新增标签")
     @PostMapping
-    public ResponseEntity<Void> addSubjectLabel(
-            @RequestBody @Parameter(description = "专题标签信息") SubjectLabel subjectLabel) {
-        subjectLabelService.addSubjectLabel(subjectLabel);
-        return ResponseEntity.status(HttpStatus.CREATED).build(); // 返回 201 状态码
-    }
-
-
-    /**
-     * 更新专题标签信息
-     *
-     * @param subjectLabel 更新后的专题标签信息
-     * @return 返回 200 OK 状态
-     */
-    @Operation(summary = "更新专题标签", description = "根据 ID 更新专题标签信息")
-    @PutMapping
-    public ResponseEntity<Void> updateSubjectLabel(
-            @RequestBody @Parameter(description = "更新后的专题标签信息") SubjectLabel subjectLabel) {
-        subjectLabelService.updateSubjectLabel(subjectLabel);
-        return ResponseEntity.status(HttpStatus.OK).build(); // 返回 200 状态码
+    public ResponseEntity<?> addSubjectLabel(@RequestBody SubjectLabel subjectLabel) {
+        boolean success = subjectLabelService.addSubjectLabel(subjectLabel);
+        return success ? ResponseEntity.ok("标签新增成功") : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("标签新增失败");
     }
 
     /**
-     * 删除专题标签
-     *
-     * @param id 专题标签的 ID
-     * @return 返回 204 No Content 状态
+     * 删除标签
+     * @param pkId 标签ID
+     * @return 返回操作结果
      */
-    @Operation(summary = "删除专题标签", description = "根据 ID 删除专题标签")
+    @Operation(summary = "删除标签", description = "根据标签ID删除标签")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSubjectLabel(
-            @Parameter(description = "专题标签 ID") @PathVariable Long id) {
-        subjectLabelService.deleteSubjectLabel(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 返回 204 状态码
+    public ResponseEntity<?> deleteSubjectLabel(@PathVariable("id") Long pkId) {
+        boolean success = subjectLabelService.deleteSubjectLabel(pkId);
+        return success ? ResponseEntity.ok("标签删除成功") : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("标签删除失败");
     }
 
     /**
-     * 获取所有专题标签
-     *
-     * @return 返回包含所有专题标签的列表
+     * 批量删除标签
+     * @param pkIds 标签ID列表
+     * @return 返回操作结果
      */
-    @Operation(summary = "获取所有专题标签", description = "获取所有的专题标签")
-    @GetMapping
-    public ResponseEntity<List<SubjectLabel>> getAllSubjectLabels() {
-        List<SubjectLabel> labels = subjectLabelService.getAllSubjectLabels();
-        return ResponseEntity.ok(labels); // 返回 200 状态码，并携带标签列表
+    @Operation(summary = "批量删除标签", description = "根据标签ID列表批量删除标签")
+    @DeleteMapping("/batch")
+    public ResponseEntity<?> deleteSubjectLabels(@RequestBody List<Long> pkIds) {
+        boolean success = subjectLabelService.deleteSubjectLabels(pkIds);
+        return success ? ResponseEntity.ok("批量标签删除成功") : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("批量标签删除失败");
+    }
+
+    /**
+     * 更新标签
+     * @param subjectLabel 标签实体
+     * @return 返回操作结果
+     */
+    @Operation(summary = "更新标签", description = "根据传入的标签实体更新标签")
+    @PutMapping
+    public ResponseEntity<?> updateSubjectLabel(@RequestBody SubjectLabel subjectLabel) {
+        boolean success = subjectLabelService.updateSubjectLabel(subjectLabel);
+        return success ? ResponseEntity.ok("标签更新成功") : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("标签更新失败");
+    }
+
+    /**
+     * 根据ID查询标签
+     * @param pkId 标签ID
+     * @return 返回标签信息
+     */
+    @Operation(summary = "根据ID查询标签", description = "根据标签ID查询标签详情")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getSubjectLabelById(@PathVariable("id") Long pkId) {
+        SubjectLabel subjectLabel = subjectLabelService.getSubjectLabelById(pkId);
+        return subjectLabel != null ? ResponseEntity.ok(subjectLabel) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("标签未找到");
+    }
+
+    /**
+     * 查询所有标签
+     * @return 返回所有标签的列表
+     */
+    @Operation(summary = "查询所有标签", description = "查询系统中所有标签信息")
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllSubjectLabels() {
+        List<SubjectLabel> subjectLabels = subjectLabelService.getAllSubjectLabels();
+        return ResponseEntity.ok(subjectLabels);
+    }
+
+    /**
+     * 根据专题ID查询标签
+     * @param subjectId 专题ID
+     * @return 返回该专题下的所有标签
+     */
+    @Operation(summary = "根据专题ID查询标签", description = "根据专题ID查询该专题下的所有标签")
+    @GetMapping("/by-subject/{subjectId}")
+    public ResponseEntity<?> getSubjectLabelsBySubjectId(@PathVariable("subjectId") Long subjectId) {
+        List<SubjectLabel> subjectLabels = subjectLabelService.getSubjectLabelsBySubjectId(subjectId);
+        return ResponseEntity.ok(subjectLabels);
+    }
+
+    /**
+     * 分页查询标签
+     * @param pageNum 页码
+     * @param pageSize 每页记录数
+     * @return 返回分页标签信息
+     */
+    @Operation(summary = "分页查询标签", description = "根据查询条件分页获取标签列表")
+    @GetMapping("/page")
+    public ResponseEntity<PageResult<SubjectLabel>> getSubjectLabelPage(
+            @RequestParam int pageNum,
+            @RequestParam int pageSize) {
+
+        // 调用 Service 层进行分页查询
+        PageResult<SubjectLabel> pageResult = subjectLabelService.getSubjectLabelPage(pageNum, pageSize);
+
+        // 返回分页结果
+        return ResponseEntity.ok(pageResult);
     }
 }

@@ -6,7 +6,7 @@ import top.zhu.tcomadminapi.model.query.SubjectQuery;
 import top.zhu.tcomadminapi.model.vo.SubjectVO;
 import top.zhu.tcomadminapi.common.result.PageResult;
 
-import java.util.List;
+
 
 public interface SubjectService extends IService<Subject> {
     PageResult<SubjectVO> page(SubjectQuery subjectQuery);

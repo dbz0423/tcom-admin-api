@@ -17,7 +17,7 @@ import top.zhu.tcomadminapi.common.result.PageResult;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 @AllArgsConstructor
@@ -58,16 +58,6 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
         }
         return subjectConvert.convert(subject);
     }
-
-//    @Override
-//    public void addSubject(SubjectVO subjectVO) {
-//        Subject subject = subjectConvert.toSubject(subjectVO);
-//        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-//        subject.setCreateTime(currentTime);
-//        subject.setUpdateTime(currentTime);
-//        subject.setState(0);  // 默认状态为 "编辑中"
-//        subjectMapper.insert(subject);
-//    }
 
     @Override
     public void addSubject(SubjectVO subjectVO) {

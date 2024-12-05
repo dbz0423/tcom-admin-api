@@ -1,80 +1,88 @@
 package top.zhu.tcomadminapi.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import top.zhu.tcomadminapi.common.result.PageResult;
 import top.zhu.tcomadminapi.model.entity.IndexContent;
+import top.zhu.tcomadminapi.model.query.IndexContentQuery;
+import top.zhu.tcomadminapi.model.vo.IndexContentVO;
 import top.zhu.tcomadminapi.service.IndexContentService;
 
 
 import java.util.List;
 
 
-/**
- * 控制器：处理与首页内容相关的 HTTP 请求
- */
 @RestController
-@RequestMapping("/indexContent")
+@RequestMapping("/index-content")
 public class IndexContentController {
 
     @Autowired
     private IndexContentService indexContentService;
 
     /**
-     * 获取所有首页内容
-     *
-     * @return 返回所有首页内容的列表，状态码 200 OK
+     * 分页查询首页内容
      */
-    @Operation(summary = "获取所有首页内容", description = "返回所有首页内容的列表")
-    @GetMapping("/list")
+    @Operation(summary = "分页查询首页内容", description = "根据查询条件分页获取首页内容列表")
+    @PostMapping("/page")
+    public ResponseEntity<PageResult<IndexContentVO>> getIndexContentPage(
+            @RequestBody @Valid IndexContentQuery indexContentQuery) {
+        // 调用服务层的分页查询方法
+        PageResult<IndexContentVO> pageResult = indexContentService.page(indexContentQuery);
+
+        // 返回分页结果
+        return ResponseEntity.ok(pageResult);
+    }
+
+    /**
+     * 添加首页内容
+     */
+    @Operation(summary = "添加首页内容", description = "根据提供的首页内容信息，添加一条新的首页内容")
+    @PostMapping("/add")
+    public ResponseEntity<Boolean> addIndexContent(@RequestBody @Valid IndexContent indexContent) {
+        boolean result = indexContentService.addIndexContent(indexContent);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * 获取所有首页内容
+     */
+    @Operation(summary = "获取所有首页内容", description = "获取系统中所有的首页内容列表")
+    @GetMapping("/all")
     public ResponseEntity<List<IndexContent>> getAllIndexContents() {
         List<IndexContent> indexContents = indexContentService.getAllIndexContents();
         return ResponseEntity.ok(indexContents);
     }
 
     /**
-     * 获取首页内容详情
-     *
-     * @param pkId 首页内容的唯一标识符
-     * @return 返回指定首页内容的详情，若内容存在返回 200 OK，若内容不存在返回 404 Not Found
+     * 根据ID查询首页内容
      */
-    @Operation(summary = "获取首页内容详情", description = "根据首页内容的 ID 获取详细信息")
-    @GetMapping("/detail/{pkId}")
-    public ResponseEntity<IndexContent> getIndexContentDetail(@PathVariable Long pkId) {
-        IndexContent indexContent = indexContentService.getIndexContentById(pkId);
-        if (indexContent != null) {
-            return ResponseEntity.ok(indexContent);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-    }
-
-    /**
-     * 添加首页内容
-     *
-     * @param indexContent 新的首页内容信息
-     * @return 返回 200 OK 或 500 Internal Server Error 状态码，成功或失败的信息
-     */
-    @Operation(summary = "添加首页内容", description = "创建一个新的首页内容")
-    @PostMapping("/add")
-    public ResponseEntity<String> addIndexContent(@RequestBody IndexContent indexContent) {
-        boolean success = indexContentService.addIndexContent(indexContent);
-        return success ? ResponseEntity.ok("首页内容添加成功") : ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("首页内容添加失败");
+    @Operation(summary = "根据ID查询首页内容", description = "根据首页内容的唯一标识（ID）获取首页内容信息")
+    @GetMapping("/{id}")
+    public IndexContentVO getIndexContentById(@PathVariable Long id) {
+        return indexContentService.getIndexContentById(id);
     }
 
     /**
      * 删除首页内容
-     *
-     * @param pkId 首页内容的唯一标识符
-     * @return 返回 200 OK 或 404 Not Found 状态码，删除操作成功或失败的信息
      */
-    @Operation(summary = "删除首页内容", description = "根据首页内容的 ID 删除内容")
-    @DeleteMapping("/delete/{pkId}")
-    public ResponseEntity<String> deleteIndexContent(@PathVariable Long pkId) {
-        boolean success = indexContentService.deleteIndexContent(pkId);
-        return success ? ResponseEntity.ok("首页内容删除成功") : ResponseEntity.status(HttpStatus.NOT_FOUND).body("首页内容不存在");
+    @Operation(summary = "删除首页内容", description = "根据ID删除指定的首页内容")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteIndexContent(@PathVariable("id") Long pkId) {
+        boolean result = indexContentService.deleteIndexContent(pkId);
+        if (result) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
+
 
 

@@ -1,5 +1,6 @@
 package top.zhu.tcomadminapi.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.zhu.tcomadminapi.mapper.IndexCategoryMapper;
@@ -13,17 +14,21 @@ import java.util.List;
 public class IndexCategoryServiceImpl implements IndexCategoryService {
 
     @Autowired
-    private IndexCategoryMapper indexCategoryMapper;  // 假设使用 MyBatis 持久化层
+    private IndexCategoryMapper indexCategoryMapper;
 
     @Override
     public boolean addIndexCategory(IndexCategory indexCategory) {
+        indexCategory.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        indexCategory.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         return indexCategoryMapper.insert(indexCategory) > 0;
     }
 
     @Override
     public boolean updateIndexCategory(Long pkId, String name, Integer isShow, Integer sort) {
-        // 查找并更新指定的分类
-        IndexCategory indexCategory = indexCategoryMapper.selectById(pkId);
+        QueryWrapper<IndexCategory> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("pk_id", pkId);
+        IndexCategory indexCategory = indexCategoryMapper.selectOne(queryWrapper);
+
         if (indexCategory != null) {
             indexCategory.setName(name);
             indexCategory.setIsShow(isShow);
@@ -43,4 +48,5 @@ public class IndexCategoryServiceImpl implements IndexCategoryService {
     public List<IndexCategory> getIndexCategories() {
         return indexCategoryMapper.selectList(null);
     }
+
 }

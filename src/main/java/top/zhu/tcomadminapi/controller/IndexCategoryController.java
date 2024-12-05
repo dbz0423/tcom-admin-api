@@ -52,8 +52,6 @@ public class IndexCategoryController {
         return success ? ResponseEntity.ok("分类添加成功") : ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("分类添加失败");
     }
 
-
-
     /**
      * 修改首页分类
      *
@@ -84,4 +82,6 @@ public class IndexCategoryController {
         boolean success = indexCategoryService.deleteIndexCategory(pkId);
         return success ? ResponseEntity.ok("分类删除成功") : ResponseEntity.status(HttpStatus.NOT_FOUND).body("分类不存在");
     }
+
+
 }
