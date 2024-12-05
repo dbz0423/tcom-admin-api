@@ -38,7 +38,7 @@ public class ManagerVO implements Serializable {
 
     @Schema(description = "状态 0：启用    1：禁用", required = true)
     @Range(min = 0, max = 1, message = "用户状态不正确")
-    private Integer status;
+    private Integer isEnabled;
 
     @Schema(description = "创建时间")
     @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
