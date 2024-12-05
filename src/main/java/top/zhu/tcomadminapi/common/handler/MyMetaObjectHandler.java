@@ -1,4 +1,4 @@
-package top.zhu.tcomadminapi.common.config;
+package top.zhu.tcomadminapi.common.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;

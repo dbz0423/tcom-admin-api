@@ -1,4 +1,4 @@
-package top.zhu.tcomadminapi.common.exception;
+package top.zhu.tcomadminapi.common.handler;
 
 
 
@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import top.zhu.tcomadminapi.common.exception.DeleteQuestionException;
+import top.zhu.tcomadminapi.common.exception.QuestionNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
