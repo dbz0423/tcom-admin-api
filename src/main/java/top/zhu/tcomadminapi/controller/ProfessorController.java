@@ -9,7 +9,7 @@ import top.zhu.tcomadminapi.service.ProfessorService;
 import java.util.List;
 
 /**
- * 控制器：处理与专家（Professor）相关的 HTTP 请求
+ * 专家管理
  */
 @RestController
 @RequestMapping("/professors")

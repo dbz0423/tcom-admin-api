@@ -1,13 +1,9 @@
 package top.zhu.tcomadminapi.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.zhu.tcomadminapi.common.result.PageResult;
 import top.zhu.tcomadminapi.model.entity.IndexContent;
@@ -18,7 +14,9 @@ import top.zhu.tcomadminapi.service.IndexContentService;
 
 import java.util.List;
 
-
+/**
+ * 首页内容管理
+ */
 @RestController
 @RequestMapping("/index-content")
 public class IndexContentController {

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * 控制器：处理与首页分类相关的 HTTP 请求
+ * 首页分类管理
  */
 @RestController
 @RequestMapping("/indexCategory")

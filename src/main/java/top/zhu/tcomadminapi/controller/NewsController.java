@@ -11,7 +11,7 @@ import top.zhu.tcomadminapi.service.NewsService;
 import java.util.List;
 
 /**
- * 资讯管理控制器
+ * 资讯管理
  */
 @RestController
 @RequestMapping("/news")

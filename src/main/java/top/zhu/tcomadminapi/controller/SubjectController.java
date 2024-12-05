@@ -3,7 +3,6 @@ package top.zhu.tcomadminapi.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,7 @@ import top.zhu.tcomadminapi.model.vo.SubjectVO;
 import top.zhu.tcomadminapi.service.SubjectService;
 
 /**
- * 控制器：处理与专题相关的 HTTP 请求
+ * 专题管理
  */
 @RestController
 @RequestMapping("/api/subject")

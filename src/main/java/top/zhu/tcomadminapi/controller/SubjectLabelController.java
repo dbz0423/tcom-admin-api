@@ -13,7 +13,7 @@ import top.zhu.tcomadminapi.service.SubjectLabelService;
 import java.util.List;
 
 /**
- * 标签管理控制器
+ * 标签管理
  */
 @RestController
 @RequestMapping("/subject-label")

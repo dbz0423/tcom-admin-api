@@ -3,7 +3,6 @@ package top.zhu.tcomadminapi.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,7 @@ import java.util.List;
 
 
 /**
- * 控制器：处理与专题和标签关联相关的 HTTP 请求
+ * 专题和标签关联
  */
 @RestController
 @RequestMapping("/api/subject-associated")
