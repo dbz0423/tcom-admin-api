@@ -2,7 +2,9 @@
     <springProperty scope="context" name="PROJ_NAME" source="spring.application.name"/>
     <springProperty scope="context" name="ENV" source="spring.profiles.active"/>
     <property name="PATTERN" value="%d [%p] [%t] %cyan(%c{5}[%L]) : %msg%n" />
+
     <property name="LOGS_FILE_PATH" value="/opt/logs/tcom-admin-api/"/>
+
 
     <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">

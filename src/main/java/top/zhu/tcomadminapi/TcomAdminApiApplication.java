@@ -8,10 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @MapperScan(basePackages = {"top.zhu.tcomadminapi.mapper"})
 public class TcomAdminApiApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(TcomAdminApiApplication.class, args);
     }
-
-
 }
+
