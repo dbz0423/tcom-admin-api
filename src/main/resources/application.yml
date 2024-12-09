@@ -31,6 +31,14 @@ spring:
       password:
       port: 6379
 
+  spring:
+    security:
+      user:
+        name: admin        # 设置开发环境用户名
+        password: 47e5a4e6-2955-40d0-9e95-3ddabfbc8c67 # 设置开发环境密码
+        roles:  ADMIN  # 设置角色（可选）
+
+
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
   type-aliases-package: top.zhu.*.entity
@@ -38,6 +46,11 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+  plugins:
+      - com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor
+      - com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor
+
   global-config:
     db-config:
       logic-delete-field: true # ????????????(since 3.3.0,????????????2)
@@ -49,8 +62,8 @@ server:
   servlet:
     context-path: /tcom-admin-api
 
-logging:
-  config: classpath:log/logback-spring.xml
+#logging:
+#  config: classpath:log/logback-spring.xml
 
 
 #logging:
@@ -99,6 +112,7 @@ auth:
     - /common/**
 
 
+
 aliyun:
   oss:
     # oss?????????
@@ -109,3 +123,4 @@ aliyun:
     accessKeySecret: L2sqJBb53oXSwqOOwwMST4WnrihkxY
     # oss?????
     bucketName: dbz0423
+

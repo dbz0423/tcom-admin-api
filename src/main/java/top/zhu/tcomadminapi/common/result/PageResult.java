@@ -24,6 +24,8 @@ public class PageResult<T> implements Serializable {
     private List<T> data;  // 当前页的数据
     
     private long total;    // 总记录数
+  
+    private List<T> records;  // 当前页的数据
     /**
      * 分页
      * @param list   列表数据
@@ -33,5 +35,9 @@ public class PageResult<T> implements Serializable {
         this.list = list;
         this.total = (int)total;
     }
+  
+      public PageResult(long total, List<T> records) {
+        this.total = total;
+        this.records = records;
+    }
 }
-
