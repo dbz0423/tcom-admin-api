@@ -3,7 +3,6 @@ package top.zhu.tcomadminapi.common.handler;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
-
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -31,6 +30,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         System.out.println("Update Fill Triggered");
         if (metaObject.hasSetter("updateTime")) {
             this.strictUpdateFill(metaObject, "updateTime", Timestamp.class, Timestamp.valueOf(LocalDateTime.now()));
+
         }
     }
 }
