@@ -1,0 +1,70 @@
+package top.zhu.tcomadminapi.security.user;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.io.Serial;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Data
+public class ManagerDetail implements UserDetails {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    private Integer pkId;
+    private String username;
+    private String password;
+    private String nickname;
+    private String avatar;
+    private Integer isEnabled;
+
+    /**
+     * 帐户是否过期
+     */
+    private boolean isAccountNonExpired = true;
+    /**
+     * 帐户是否被锁定
+     */
+    private boolean isAccountNonLocked = true;
+    /**
+     * 密码是否过期
+     */
+    private boolean isCredentialsNonExpired = true;
+    /**
+     * 拥有权限集合
+     */
+    private Set<String> authoritySet;
+
+    @Override
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return authoritySet.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+     return new HashSet<>();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return this.isAccountNonExpired;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.isAccountNonLocked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return this.isCredentialsNonExpired;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.isEnabled.equals(0);
+    }
+}

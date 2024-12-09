@@ -11,13 +11,15 @@ spring:
       max-file-size: 10MB #???????????10M
       max-request-size: 100MB  #???????????10M
 
+
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://121.43.185.118:3306/medicine_online?useSSL=false&allowPublicKeyRetrieval=true&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
-      username: root_wrj
-      password: wangruijiang123W@
+      url: jdbc:mysql://localhost:3306/tcom-admin?useSSL=false&allowPublicKeyRetrieval=true&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+      username: root
+      password: password
+
       initial-size: 5
       min-idle: 5
       max-active: 20
@@ -63,6 +65,14 @@ server:
 #logging:
 #  config: classpath:log/logback-spring.xml
 
+
+#logging:
+#  level:
+#    org.springframework: TRACE
+#    io.swagger: TRACE
+#    com.github.xiaoymin: TRACE
+
+
 # springdoc-openapi????
 springdoc:
   swagger-ui:
@@ -78,7 +88,7 @@ springdoc:
 
 # knife4j???????????????
 knife4j:
-  enable: true
+  enable: false
   setting:
     language: zh_cn
   basic:
@@ -88,7 +98,7 @@ knife4j:
 
 auth:
   ignore_urls:
-    - /zhu/auth/login
+    - /v1/login
     - /zhu/auth/captcha
     - /actuator/**
     - /v3/api-docs/**
@@ -101,13 +111,16 @@ auth:
     - /
     - /common/**
 
-#aliyun:
-#  oss:
-#    # oss?????????
-#    endpoint: oss-cn-nanjing.aliyuncs.com
-#    # ?????????????
-#    accessKeyId: LTAI5tEHc72qeWynxpJLHRfV
-#    # ????????????oss????????????
-#    accessKeySecret: L2sqJBb53oXSwqOOwwMST4WnrihkxY
-#    # oss?????
-#    bucketName: dbz0423
+
+
+aliyun:
+  oss:
+    # oss?????????
+    endpoint: oss-cn-nanjing.aliyuncs.com
+    # ?????????????
+    accessKeyId: LTAI5tEHc72qeWynxpJLHRfV
+    # ????????????oss????????????
+    accessKeySecret: L2sqJBb53oXSwqOOwwMST4WnrihkxY
+    # oss?????
+    bucketName: dbz0423
+
