@@ -1,10 +1,15 @@
 package top.zhu.tcomadminapi.common.result;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import top.zhu.tcomadminapi.common.exception.ErrorCode;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Schema(description = "响应数据")
 public class Result<T> {
     @Schema(description = "编码 0表示成功，其他值表示失败")

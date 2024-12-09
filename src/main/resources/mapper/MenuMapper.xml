@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zhu.tcomadminapi.mapper.MenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.zhu.tcomadminapi.model.entity.Menu">
+        <id column="pk_id" property="pkId" />
+        <result column="parent_id" property="parentId" />
+        <result column="name" property="name" />
+        <result column="path" property="path" />
+        <result column="component" property="component" />
+        <result column="type" property="type" />
+        <result column="open_type" property="openType" />
+        <result column="url" property="url" />
+        <result column="icon" property="icon" />
+        <result column="auth" property="auth" />
+        <result column="keep_alive" property="keepAlive" />
+        <result column="sort" property="sort" />
+        <result column="delete_flag" property="deleteFlag" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <select id="getMenuList" resultType="top.zhu.tcomadminapi.model.entity.Menu">
+        select * from t_menu
+        order by pk_id
+    </select>
+
+    <select id="getManagerMenuList" resultType="top.zhu.tcomadminapi.model.entity.Menu">
+        select t1.*
+        from t_menu t1
+                 left join t_role_menu t2 on t1.pk_id = t2.menu_id
+                 left join t_role t3 on t2.role_id = t3.pk_id
+                 left join t_manager_role t4 on t4.role_id = t3.pk_id
+                 left join t_manager t5 on t4.manager_id = t5.pk_id
+        where t5.pk_id = #{managerId}
+        order by t1.pk_id
+    </select>
+
+
+</mapper>
