@@ -22,6 +22,9 @@ public class SubjectVO {
     @Schema(description = "简介")
     private String brief;
 
+    @Schema(description = "作者")
+    private String author;  // 添加 author 字段
+
     @Schema(description = "封面")
     private String cover;
 

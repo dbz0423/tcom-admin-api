@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/podcast")
+@RequestMapping("/v1/podcast")
 public class PodcastController {
 
     @Autowired

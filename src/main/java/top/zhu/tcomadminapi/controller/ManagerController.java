@@ -16,6 +16,10 @@ import top.zhu.tcomadminapi.service.ManagerService;
 
 import java.util.List;
 
+
+/**
+ * 管理员管理
+ */
 @RestController
 @RequestMapping("/v1/manager")
 @Tag(name = "管理员管理")

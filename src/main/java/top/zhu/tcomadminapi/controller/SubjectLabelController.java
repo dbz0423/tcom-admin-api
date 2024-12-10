@@ -16,7 +16,7 @@ import java.util.List;
  * 标签管理
  */
 @RestController
-@RequestMapping("/subject-label")
+@RequestMapping("/v1/subject-label")
 public class SubjectLabelController {
 
     @Autowired

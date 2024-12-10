@@ -18,7 +18,7 @@ import java.util.List;
  * 首页内容管理
  */
 @RestController
-@RequestMapping("/index-content")
+@RequestMapping("/v1/index-content")
 public class IndexContentController {
 
     @Autowired

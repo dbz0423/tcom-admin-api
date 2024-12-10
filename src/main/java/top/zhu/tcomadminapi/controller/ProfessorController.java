@@ -12,7 +12,7 @@ import java.util.List;
  * 专家管理
  */
 @RestController
-@RequestMapping("/professors")
+@RequestMapping("/v1/professors")
 public class ProfessorController {
 
     @Autowired

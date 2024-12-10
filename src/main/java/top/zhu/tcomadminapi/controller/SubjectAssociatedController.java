@@ -16,7 +16,7 @@ import java.util.List;
  * 专题和标签关联
  */
 @RestController
-@RequestMapping("/api/subject-associated")
+@RequestMapping("/v1/api/subject-associated")
 public class SubjectAssociatedController {
 
     private final SubjectAssociatedService subjectAssociatedService;

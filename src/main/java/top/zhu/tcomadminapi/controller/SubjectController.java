@@ -1,4 +1,3 @@
-
 package top.zhu.tcomadminapi.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,11 +11,12 @@ import top.zhu.tcomadminapi.model.query.SubjectQuery;
 import top.zhu.tcomadminapi.model.vo.SubjectVO;
 import top.zhu.tcomadminapi.service.SubjectService;
 
+
 /**
  * 专题管理
  */
 @RestController
-@RequestMapping("/api/subject")
+@RequestMapping("/v1/api/subject")
 @AllArgsConstructor
 public class SubjectController {
 
@@ -29,6 +29,7 @@ public class SubjectController {
     @PostMapping("/page")
     public ResponseEntity<PageResult<SubjectVO>> getSubjectPage(
             @RequestBody @Valid SubjectQuery subjectQuery) {
+        // 调用 service 层分页查询方法
         PageResult<SubjectVO> pageResult = subjectService.page(subjectQuery);
         return ResponseEntity.ok(pageResult);
     }
@@ -81,5 +82,4 @@ public class SubjectController {
         subjectService.deleteSubject(id);
         return ResponseEntity.noContent().build(); // 返回 204 状态码
     }
-
 }

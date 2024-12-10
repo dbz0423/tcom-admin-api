@@ -14,7 +14,7 @@ import java.util.List;
  * 资讯管理
  */
 @RestController
-@RequestMapping("/news")
+@RequestMapping("/v1/news")
 public class NewsController {
 
     @Autowired

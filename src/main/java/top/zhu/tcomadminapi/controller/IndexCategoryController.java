@@ -17,7 +17,7 @@ import java.util.List;
  * 首页分类管理
  */
 @RestController
-@RequestMapping("/indexCategory")
+@RequestMapping("/v1/indexCategory")
 public class IndexCategoryController {
 
     @Autowired

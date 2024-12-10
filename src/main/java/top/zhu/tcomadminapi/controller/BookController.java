@@ -15,7 +15,7 @@ import java.util.List;
  * 图书管理
  */
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/v1/book")
 public class BookController {
 
     @Autowired

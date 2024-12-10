@@ -11,7 +11,7 @@ import java.util.List;
  * 专家分类管理
  */
 @RestController
-@RequestMapping("/professor-category")
+@RequestMapping("/v1/professor-category")
 public class ProfessorCategoryController {
 
     @Autowired

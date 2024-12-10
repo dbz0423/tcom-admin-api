@@ -14,6 +14,9 @@ import top.zhu.tcomadminapi.service.MenuService;
 
 import java.util.List;
 
+/**
+ * 菜单管理
+ */
 @Tag(name = "菜单管理")
 @RestController
 @RequestMapping("/v1/menu")
