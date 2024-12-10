@@ -14,6 +14,7 @@ import top.zhu.tcomadminapi.model.entity.QuestionBankOption;
 import top.zhu.tcomadminapi.model.vo.QuestionVO;
 import top.zhu.tcomadminapi.service.QuestionService;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -31,6 +32,12 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionBankMapper, Questio
         this.questionBankMapper = questionBankMapper;
         this.questionBankOptionMapper = questionBankOptionMapper;
     }
+
+    private String formatDate(Timestamp createTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return createTime.toLocalDateTime().format(formatter);
+    }
+
 
     @Override
     public List<QuestionBank> getAllQuestions() {

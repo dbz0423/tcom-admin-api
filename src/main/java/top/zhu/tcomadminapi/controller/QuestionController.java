@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/questions")
+@RequestMapping("/v1/api/questions")
 public class QuestionController {
 
     private final QuestionService questionService;
@@ -69,10 +69,7 @@ public class QuestionController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
-    public String test(){
-        return "test";
-    }
+
 
     @PutMapping("/{id}")
     @Operation(summary = "更新题目", description = "根据题目ID更新题目及其选项")

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -58,12 +59,12 @@ public class QuestionBank {
     // 创建时间
     @Schema(description = "创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+    private Timestamp createTime;
 
     // 更新时间
     @Schema(description = "更新时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    private Timestamp updateTime;
 
     @TableField(exist = false)  // 确保它不参与数据库操作
     @Schema(description = "选项")
