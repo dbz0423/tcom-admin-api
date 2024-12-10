@@ -16,9 +16,9 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/tcom-admin?useSSL=false&allowPublicKeyRetrieval=true&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
-      username: root
-      password: password
+      url: jdbc:mysql://121.43.185.118:3306/medicine_online?useSSL=false&allowPublicKeyRetrieval=true&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+      username: root_wrj
+      password: wangruijiang123W@
 
       initial-size: 5
       min-idle: 5
