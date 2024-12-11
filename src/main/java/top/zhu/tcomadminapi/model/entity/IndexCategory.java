@@ -1,9 +1,6 @@
 package top.zhu.tcomadminapi.model.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -13,12 +10,13 @@ import java.sql.Timestamp;
 @TableName("t_index_category")
 public class IndexCategory {
 
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Long pkId;         // pk_id
 
     private String name;       // name
 
-    private Long parentId;     // 低级id
+    @TableField("parent_id")
+    private Long parentId;     // 父级分类ID
 
     private Integer level;     // 层级
 
