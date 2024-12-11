@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zhu.tcomadminapi.mapper.QuizItemExamMapper">
+
+    <select id="selectTitleByQuizDetailId" resultType="java.lang.String">
+        SELECT title FROM t_quiz_item_exam WHERE quiz_detail_id = #{quizDetailId}
+    </select>
+
+    <select id="selectPkIdByQuizDetailId" resultType="java.lang.Long">
+        SELECT pk_id FROM t_quiz_item_exam WHERE quiz_detail_id = #{quizDetailId}
+    </select>
+</mapper>

@@ -31,9 +31,6 @@ public class Menu {
     @TableField("name")
     private String name;
 
-    @TableField("perms")
-    private String perms;
-
     /**
      * 菜单标题
      */
@@ -117,5 +114,4 @@ public class Menu {
      */
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
-
 }

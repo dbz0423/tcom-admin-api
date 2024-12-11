@@ -9,9 +9,6 @@ import lombok.Setter;
 @Schema(name = "CityExamineesInfoDTO", description = "每个城市的考生信息传输对象")
 public class CityExamineesInfoDTO {
 
-    @Schema(description = "唯一标识")
-    private Long pkId;
-
     @Schema(description = "城市名称")
     private String cityName;
 
