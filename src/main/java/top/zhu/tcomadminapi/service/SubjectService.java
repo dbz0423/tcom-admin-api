@@ -6,6 +6,7 @@ import top.zhu.tcomadminapi.model.query.SubjectQuery;
 import top.zhu.tcomadminapi.model.vo.SubjectVO;
 import top.zhu.tcomadminapi.common.result.PageResult;
 
+import java.util.List;
 
 
 public interface SubjectService extends IService<Subject> {
@@ -14,4 +15,5 @@ public interface SubjectService extends IService<Subject> {
     void addSubject(SubjectVO subjectVO);
     void updateSubject(SubjectVO subjectVO);
     void deleteSubject(Long id);
+    List<SubjectVO> getAllSubjects();
 }

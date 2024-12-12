@@ -24,6 +24,7 @@ public class ProfessorCategory {
 
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Timestamp updateTime;  // update_time
+
     private Integer level;        // 分类级别
 
     private Integer parentId;     // 上级分类ID

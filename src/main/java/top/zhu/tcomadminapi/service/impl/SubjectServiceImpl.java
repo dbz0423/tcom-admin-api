@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.zhu.tcomadminapi.model.entity.Subject;
@@ -17,6 +18,7 @@ import top.zhu.tcomadminapi.common.result.PageResult;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -88,4 +90,18 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
     public void deleteSubject(Long id) {
         subjectMapper.deleteById(id);
     }
+
+    @Override
+    public List<SubjectVO> getAllSubjects() {
+        // 假设 SubjectVO 和 Subject 字段一一对应（或有简单的 Bean 拷贝逻辑）
+        List<Subject> subjects = this.list(); // 使用 MyBatis-Plus 的内置查询方法
+        return subjects.stream()
+                .map(subject -> {
+                    SubjectVO vo = new SubjectVO();
+                    BeanUtils.copyProperties(subject, vo);
+                    return vo;
+                })
+                .collect(Collectors.toList());
+    }
+
 }

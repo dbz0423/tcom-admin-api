@@ -3,6 +3,7 @@ package top.zhu.tcomadminapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import top.zhu.tcomadminapi.common.result.PageResult;
 import top.zhu.tcomadminapi.common.result.Result;
 import org.springframework.web.bind.annotation.*;
 import top.zhu.tcomadminapi.model.entity.News;
@@ -84,4 +85,22 @@ public class NewsController {
         List<News> newsList = newsService.getAllNews();
         return Result.ok(newsList);
     }
+
+    /**
+     * 分页查询所有资讯
+     * @param pageNum 当前页码
+     * @param pageSize 每页显示条数
+     * @param title 可选，资讯标题，用于模糊查询
+     * @return 返回分页结果
+     */
+    @GetMapping("/list")
+    public PageResult<News> getNewsList(
+            @RequestParam(name = "pageNum") int pageNum,
+            @RequestParam(name = "pageSize") int pageSize,
+            @RequestParam(name = "title", required = false) String title) {
+        return newsService.getNewsList(pageNum, pageSize, title);
+    }
+
+
+
 }

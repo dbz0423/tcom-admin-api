@@ -29,7 +29,7 @@ public class SubjectVO {
     private String cover;
 
     @Schema(description = "标签，多个用‘，’隔开")
-    private List<String> labelList;
+    private String label;
 
     @Schema(description = "学习要求")
     private String claim;

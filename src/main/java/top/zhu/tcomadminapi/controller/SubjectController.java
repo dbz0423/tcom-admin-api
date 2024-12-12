@@ -11,6 +11,8 @@ import top.zhu.tcomadminapi.model.query.SubjectQuery;
 import top.zhu.tcomadminapi.model.vo.SubjectVO;
 import top.zhu.tcomadminapi.service.SubjectService;
 
+import java.util.List;
+
 
 /**
  * 专题管理
@@ -78,6 +80,16 @@ public class SubjectController {
             @Parameter(description = "专题 ID") @PathVariable Long id) {
         subjectService.deleteSubject(id);
         return Result.ok("专题删除成功");
+    }
+
+    /**
+     * 查询所有专题
+     */
+    @Operation(summary = "查询所有专题", description = "查询系统中所有专题信息")
+    @GetMapping("/all")
+    public Result<List<SubjectVO>> getAllSubjects() {
+        List<SubjectVO> subjects = subjectService.getAllSubjects();
+        return Result.ok(subjects);
     }
 }
 
