@@ -1,7 +1,7 @@
 package top.zhu.tcomadminapi.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Param;
 import top.zhu.tcomadminapi.model.entity.Menu;
 
 import java.util.List;
@@ -18,11 +18,4 @@ public interface MenuMapper extends BaseMapper<Menu> {
      * @param managerId 用户ID
      */
     List<Menu> getManagerMenuList(@Param("managerId") Integer managerId , @Param("isEq") boolean isEq);
-
-    int insertMenu(Menu record);
-
-    int updateByPrimaryKey(Menu record);
-
-    int deleteByPrimaryKey(Integer pkId);
-
 }

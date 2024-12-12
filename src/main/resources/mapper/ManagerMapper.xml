@@ -2,7 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.zhu.tcomadminapi.mapper.ManagerMapper">
 
-    <select id="selectAllManagers" resultType="top.zhu.tcomadminapi.model.entity.Manager">
-        SELECT * FROM t_manager WHERE is_enabled = 0
+    <select id="getManagerPage" resultType="top.zhu.tcomadminapi.model.vo.ManagerVO">
+        SELECT tm.*, tr.`name`
+        FROM t_manager tm
+        LEFT JOIN t_manager_role tmr on tm.pk_id = tmr.manager_id
+        LEFT JOIN t_role tr on tr.pk_id = tmr.role_id
+        <where>
+            tm.is_enabled = 0
+            <if test="query.username != null and query.username != ''  ">
+                and tm.account like concat('%',#{query.username},'%')
+            </if>
+            <if test="query.nickname != null and query.nickname != ''  ">
+                and tm.nickname like concat('%',#{query.nickname},'%')
+            </if>
+        </where>
+        ORDER BY tm.create_time desc
     </select>
 </mapper>
