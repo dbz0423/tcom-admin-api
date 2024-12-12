@@ -23,18 +23,18 @@ public class ManagerVO implements Serializable {
 
     @Schema(description = "用户名", required = true)
     @NotBlank(message = "用户名不能为空")
-    private String username;
-
-    @Schema(description = "密码")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
-
+    private String account;
 
     @Schema(description = "头像")
     private String avatar;
 
-    @Schema(description = "角色id")
-    private Integer roleId;
+    @Schema(description = "昵称", required = true)
+    @NotBlank(message = "昵称不能为空")
+    private String nickname;
+
+    @Schema(description = "角色", required = true)
+    @NotBlank(message = "角色不能为空")
+    private String name;
 
     @Schema(description = "状态 0：启用    1：禁用", required = true)
     @Range(min = 0, max = 1, message = "用户状态不正确")

@@ -2,7 +2,6 @@ package top.zhu.tcomadminapi.model.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -13,7 +12,6 @@ import java.sql.Timestamp;
 @TableName("t_index_category")
 public class IndexCategory {
 
-    @TableId
     private Long pkId;         // pk_id
 
     private String name;       // name
