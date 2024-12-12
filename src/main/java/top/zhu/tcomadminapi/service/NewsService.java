@@ -1,6 +1,7 @@
 package top.zhu.tcomadminapi.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import top.zhu.tcomadminapi.common.result.PageResult;
 import top.zhu.tcomadminapi.model.entity.News;
 
 import java.util.List;
@@ -16,4 +17,5 @@ public interface NewsService extends IService<News> {
     boolean deleteNewsBatch(List<Integer> pkIds);
     News getNewsById(Integer pkId);
     List<News> getAllNews();
+    PageResult<News> getNewsList(int pageNum, int pageSize, String title);
 }

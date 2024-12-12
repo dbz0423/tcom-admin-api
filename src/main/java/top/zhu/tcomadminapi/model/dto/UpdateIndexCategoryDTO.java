@@ -13,6 +13,8 @@ public class UpdateIndexCategoryDTO {
     private String name;
     private Integer isShow;
     private Integer sort;
+    private Long parentId; // 添加 parent_id 字段
 
-
+    // Getters and Setters...
 }
+

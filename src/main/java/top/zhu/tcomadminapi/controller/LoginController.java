@@ -11,6 +11,10 @@ import top.zhu.tcomadminapi.model.vo.LoginVO;
 import top.zhu.tcomadminapi.security.utils.TokenUtils;
 import top.zhu.tcomadminapi.service.LoginService;
 
+
+/**
+ * 登录管理
+ */
 @Tag(name = "登录管理")
 @RestController
 @AllArgsConstructor

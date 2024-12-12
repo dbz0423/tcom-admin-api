@@ -1,7 +1,10 @@
 package top.zhu.tcomadminapi.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import top.zhu.tcomadminapi.common.result.PageResult;
 import top.zhu.tcomadminapi.mapper.NewsMapper;
 import top.zhu.tcomadminapi.model.entity.News;
 import top.zhu.tcomadminapi.service.NewsService;
@@ -42,5 +45,25 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
     @Override
     public List<News> getAllNews() {
         return list(); // MyBatis-Plus 提供的查询所有方法
+    }
+
+
+
+    @Override
+    public PageResult<News> getNewsList(int pageNum, int pageSize, String title) {
+        // 创建分页对象
+        Page<News> page = new Page<>(pageNum, pageSize);
+
+        // 构建查询条件
+        QueryWrapper<News> queryWrapper = new QueryWrapper<>();
+        if (title != null && !title.isEmpty()) {
+            queryWrapper.like("title", title);  // 按照标题进行模糊查询
+        }
+
+        // 分页查询
+        Page<News> newsPage = this.page(page, queryWrapper);
+
+        // 使用现有的 PageResult 封装分页结果
+        return new PageResult<>(newsPage.getTotal(), newsPage.getRecords());
     }
 }

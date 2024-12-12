@@ -1,8 +1,6 @@
 package top.zhu.tcomadminapi.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -11,7 +9,7 @@ import java.sql.Timestamp;
 @TableName("t_podcast") // 指定数据库表名
 public class Podcast {
 
-    @TableId
+    @TableId(value = "pk_id", type = IdType.AUTO)
     private Integer pkId; // 主键ID
 
     private String title; // 播客标题
@@ -38,11 +36,11 @@ public class Podcast {
 
     private Integer managerId; // 管理员ID
 
-    @TableField(value = "create_time")
-    private Timestamp createTime; // 创建时间
+    @TableField(value="create_time",fill= FieldFill.INSERT)
+    private Timestamp createTime;  // create_time
 
-    @TableField(value = "update_time")
-    private Timestamp updateTime; // 更新时间
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    private Timestamp updateTime;  // update_time
 
     private Integer categoryId; // 分类ID
 

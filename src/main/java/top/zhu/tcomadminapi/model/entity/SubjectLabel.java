@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @TableName("t_subject_label")
 public class SubjectLabel {
 
-    @TableId(value = "pk_id", type = com.baomidou.mybatisplus.annotation.IdType.AUTO)
+    @TableId(value = "pk_id", type=IdType.AUTO)
     private Long pkId;            // 唯一标识
 
     private Long subjectId;       // 专题id (外键关联到TSubject)

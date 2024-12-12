@@ -10,7 +10,7 @@ public interface IndexCategoryService {
     boolean addIndexCategory(IndexCategory indexCategory);
 
     // 修改首页分类
-    boolean updateIndexCategory(Long pkId, String name, Integer isShow, Integer sort);
+    boolean updateIndexCategory(Long pkId, String name, Integer isShow, Integer sort , Long parentId);
 
     // 删除首页分类
     boolean deleteIndexCategory(Long pkId);

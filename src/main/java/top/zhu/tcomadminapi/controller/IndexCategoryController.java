@@ -3,7 +3,7 @@ package top.zhu.tcomadminapi.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import top.zhu.tcomadminapi.common.result.Result;
 import org.springframework.web.bind.annotation.*;
 import top.zhu.tcomadminapi.model.dto.UpdateIndexCategoryDTO;
 import top.zhu.tcomadminapi.model.entity.IndexCategory;
@@ -17,7 +17,7 @@ import java.util.List;
  * 首页分类管理
  */
 @RestController
-@RequestMapping("/indexCategory")
+@RequestMapping("/v1/indexCategory")
 public class IndexCategoryController {
 
     @Autowired
@@ -42,15 +42,17 @@ public class IndexCategoryController {
      */
     @Operation(summary = "新增首页分类", description = "创建一个新的首页分类")
     @PostMapping("/add")
-    public ResponseEntity<String> addIndexCategory(@RequestBody IndexCategory indexCategory) {
-        // 将 LocalDateTime 转换为 Timestamp
-        LocalDateTime now = LocalDateTime.now();
-        indexCategory.setCreateTime(Timestamp.valueOf(now)); // 转换为 Timestamp
-        indexCategory.setUpdateTime(Timestamp.valueOf(now));
+    public Result<String> addIndexCategory(@RequestBody IndexCategory indexCategory) {
+        System.out.println("接收到的数据: " + indexCategory); // 调试打印
+
+        indexCategory.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        indexCategory.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 
         boolean success = indexCategoryService.addIndexCategory(indexCategory);
-        return success ? ResponseEntity.ok("分类添加成功") : ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("分类添加失败");
+        return success ? Result.ok("分类添加成功") : Result.error("分类添加失败");
     }
+
+
 
     /**
      * 修改首页分类
@@ -61,13 +63,20 @@ public class IndexCategoryController {
      */
     @Operation(summary = "修改首页分类", description = "根据 ID 更新首页分类的信息")
     @PutMapping("/update/{pkId}")
-    public ResponseEntity<String> updateIndexCategory(
-            @PathVariable Long pkId,  // 分类 ID
-            @RequestBody UpdateIndexCategoryDTO request  // 更新内容
+    public Result<String> updateIndexCategory(
+            @PathVariable Long pkId,
+            @RequestBody UpdateIndexCategoryDTO request
     ) {
-        boolean success = indexCategoryService.updateIndexCategory(pkId, request.getName(), request.getIsShow(), request.getSort());
-        return success ? ResponseEntity.ok("分类修改成功") : ResponseEntity.status(HttpStatus.NOT_FOUND).body("分类不存在");
+        boolean success = indexCategoryService.updateIndexCategory(
+                pkId,
+                request.getName(),
+                request.getIsShow(),
+                request.getSort(),
+                request.getParentId() // 传递 parent_id
+        );
+        return success ? Result.ok("分类修改成功") : Result.error("分类不存在");
     }
+
 
 
     /**
@@ -78,9 +87,9 @@ public class IndexCategoryController {
      */
     @Operation(summary = "删除首页分类", description = "根据 ID 删除首页分类")
     @DeleteMapping("/delete/{pkId}")
-    public ResponseEntity<String> deleteIndexCategory(@PathVariable Long pkId) {
+    public Result<String> deleteIndexCategory(@PathVariable Long pkId) {
         boolean success = indexCategoryService.deleteIndexCategory(pkId);
-        return success ? ResponseEntity.ok("分类删除成功") : ResponseEntity.status(HttpStatus.NOT_FOUND).body("分类不存在");
+        return success ? Result.ok("分类删除成功") : Result.error("分类不存在");
     }
 
 

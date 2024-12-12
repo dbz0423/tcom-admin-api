@@ -17,6 +17,8 @@ public class Subject {
 
     private String brief;         // 简介
 
+    private String author;         // 作者
+
     private String cover;         // 封面
 
     private String label;         // 标签，多个用“，”隔开

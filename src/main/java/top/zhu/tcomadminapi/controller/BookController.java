@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import top.zhu.tcomadminapi.common.result.Result;
 import org.springframework.web.bind.annotation.*;
 import top.zhu.tcomadminapi.model.entity.Book;
 import top.zhu.tcomadminapi.service.BookService;
@@ -15,7 +15,7 @@ import java.util.List;
  * 图书管理
  */
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/v1/book")
 public class BookController {
 
     @Autowired
@@ -29,9 +29,9 @@ public class BookController {
      */
     @Operation(summary = "新增图书", description = "新增一本图书")
     @PostMapping
-    public ResponseEntity<?> addBook(@RequestBody Book book) {
+    public Result<?> addBook(@RequestBody Book book) {
         boolean success = bookService.save(book);
-        return success ? ResponseEntity.ok("图书新增成功") : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("图书新增失败");
+        return success ? Result.ok("图书新增成功") : Result.error("图书新增失败");
     }
 
     /**
@@ -42,9 +42,9 @@ public class BookController {
      */
     @Operation(summary = "删除图书", description = "根据 ID 删除图书")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable("id") Integer pkId) {
+    public Result<?> deleteBook(@PathVariable("id") Integer pkId) {
         boolean success = bookService.removeById(pkId);
-        return success ? ResponseEntity.ok("图书删除成功") : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("图书删除失败");
+        return success ? Result.ok("图书删除成功") : Result.error("图书删除失败");
     }
 
     /**
@@ -55,9 +55,9 @@ public class BookController {
      */
     @Operation(summary = "批量删除图书", description = "根据 ID 列表批量删除图书")
     @DeleteMapping("/batch")
-    public ResponseEntity<?> deleteBooks(@RequestBody List<Integer> pkIds) {
+    public Result<?> deleteBooks(@RequestBody List<Integer> pkIds) {
         boolean success = bookService.deleteBooks(pkIds);
-        return success ? ResponseEntity.ok("批量图书删除成功") : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("批量图书删除失败");
+        return success ? Result.ok("批量图书删除成功") : Result.error("批量图书删除失败");
     }
 
     /**
@@ -68,9 +68,9 @@ public class BookController {
      */
     @Operation(summary = "更新图书", description = "更新图书信息")
     @PutMapping
-    public ResponseEntity<?> updateBook(@RequestBody Book book) {
+    public Result<?> updateBook(@RequestBody Book book) {
         boolean success = bookService.updateById(book);
-        return success ? ResponseEntity.ok("图书更新成功") : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("图书更新失败");
+        return success ? Result.ok("图书更新成功") : Result.error("图书更新失败");
     }
 
     /**
@@ -81,9 +81,9 @@ public class BookController {
      */
     @Operation(summary = "根据 ID 查询图书", description = "根据图书 ID 查询详细图书信息")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getBookById(@PathVariable("id") Integer pkId) {
+    public Result<?> getBookById(@PathVariable("id") Integer pkId) {
         Book book = bookService.getById(pkId);
-        return book != null ? ResponseEntity.ok(book) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("图书未找到");
+        return book != null ? Result.ok(book) : Result.error("图书未找到");
     }
 
     /**
@@ -93,9 +93,9 @@ public class BookController {
      */
     @Operation(summary = "查询所有图书", description = "查询所有图书信息")
     @GetMapping("/all")
-    public ResponseEntity<?> getAllBooks() {
+    public Result<?> getAllBooks() {
         List<Book> books = bookService.list();
-        return ResponseEntity.ok(books);
+        return Result.ok(books);
     }
 
     /**
@@ -107,13 +107,13 @@ public class BookController {
      */
     @Operation(summary = "分页查询图书", description = "根据页码和每页大小分页查询图书")
     @GetMapping("/page")
-    public ResponseEntity<Page<Book>> getBookPage(
+    public Result<Page<Book>> getBookPage(
             @RequestParam int pageNum,
             @RequestParam int pageSize) {
 
         Page<Book> page = new Page<>(pageNum, pageSize);
         bookService.page(page); // 调用 MyBatis-Plus 提供的分页查询方法
 
-        return ResponseEntity.ok(page);
+        return Result.ok(page);
     }
 }

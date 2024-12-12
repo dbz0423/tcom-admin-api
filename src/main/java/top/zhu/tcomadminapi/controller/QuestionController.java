@@ -18,6 +18,10 @@ import top.zhu.tcomadminapi.common.result.OperationResult;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ *  题库管理
+ */
 @RestController
 @RequestMapping("/v1/api/questions")
 public class QuestionController {
@@ -70,8 +74,6 @@ public class QuestionController {
         }
         return questionService.deleteQuestion(pkId);
     }
-
-
 
     @PutMapping
     @Operation(summary = "更新题目", description = "根据题目ID更新题目及其选项")

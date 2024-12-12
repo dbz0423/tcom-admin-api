@@ -38,4 +38,7 @@ public class SubjectQuery extends Query {
 
     @Schema(description = "更新时间")
     private Timestamp updateTime;  // 更新时间
+
+    @Schema(description = "作者")
+    private String author;  // 作者（新加字段）
 }

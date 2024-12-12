@@ -22,11 +22,14 @@ public class SubjectVO {
     @Schema(description = "简介")
     private String brief;
 
+    @Schema(description = "作者")
+    private String author;  // 添加 author 字段
+
     @Schema(description = "封面")
     private String cover;
 
     @Schema(description = "标签，多个用‘，’隔开")
-    private List<String> labelList;
+    private String label;
 
     @Schema(description = "学习要求")
     private String claim;

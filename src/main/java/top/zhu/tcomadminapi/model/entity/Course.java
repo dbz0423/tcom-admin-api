@@ -1,9 +1,6 @@
 package top.zhu.tcomadminapi.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -12,7 +9,7 @@ import java.sql.Timestamp;
 @TableName("t_course")
 public class Course {
 
-    @TableId(value = "pk_id")
+    @TableId(value = "pk_id", type = IdType.AUTO)
     private Integer pkId;            // 课程唯一标识
 
     private String title;            // 课程标题
