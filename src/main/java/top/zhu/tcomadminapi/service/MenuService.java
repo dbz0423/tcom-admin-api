@@ -9,6 +9,10 @@ import java.util.List;
 
 public interface MenuService extends IService<Menu> {
     /**
+     * 菜单列表
+     */
+    List<MenuVO> getMenuList();
+    /**
      * 用户菜单列表
      */
     List<MenuVO> getManagerMenuList(ManagerDetail manager);

@@ -18,6 +18,12 @@ import java.util.List;
 @AllArgsConstructor
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
     @Override
+    public List<MenuVO> getMenuList() {
+        List<Menu> menuList = baseMapper.getMenuList();
+        return TreeUtils.build(MenuConvert.INSTANCE.convertList(menuList));
+    }
+
+    @Override
     public List<MenuVO> getManagerMenuList(ManagerDetail manager) {
         List<Menu> menuList = baseMapper.getManagerMenuList(manager.getPkId(), false);
         return TreeUtils.build(MenuConvert.INSTANCE.convertList(menuList));
