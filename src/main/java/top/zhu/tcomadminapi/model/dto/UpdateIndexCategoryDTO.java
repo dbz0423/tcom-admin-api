@@ -10,10 +10,11 @@ import lombok.Setter;
 @Data
 @Schema(description = "首页分类修改")
 public class UpdateIndexCategoryDTO {
+    private Integer pkId;
     private String name;
     private Integer isShow;
     private Integer sort;
-    private Long parentId; // 添加 parent_id 字段
+    private Integer parentId; // 添加 parent_id 字段
 
     // Getters and Setters...
 }

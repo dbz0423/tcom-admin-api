@@ -5,22 +5,24 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import top.zhu.tcomadminapi.common.model.TreeNode;
+import top.zhu.tcomadminapi.model.vo.MenuVO;
 
 import java.sql.Timestamp;
 
 
 @Data
 @TableName("t_index_category")
-public class IndexCategory {
+public class IndexCategory{
 
 
     @TableId(type = IdType.AUTO)
-    private Long pkId;         // pk_id
+    private Integer pkId;         // pk_id
 
     private String name;       // name
 
     @TableField("parent_id")
-    private Long parentId;     // 父级分类ID
+    private Integer parentId;     // 父级分类ID
 
     private Integer level;     // 层级
 

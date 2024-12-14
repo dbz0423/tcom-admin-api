@@ -3,13 +3,15 @@ package top.zhu.tcomadminapi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.zhu.tcomadminapi.convert.IndexCategoryConvert;
 import top.zhu.tcomadminapi.mapper.IndexCategoryMapper;
 import top.zhu.tcomadminapi.model.entity.IndexCategory;
+import top.zhu.tcomadminapi.model.vo.IndexCategoryVO;
 import top.zhu.tcomadminapi.service.IndexCategoryService;
+import top.zhu.tcomadminapi.utils.TreeUtils;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class IndexCategoryServiceImpl implements IndexCategoryService {
@@ -18,22 +20,22 @@ public class IndexCategoryServiceImpl implements IndexCategoryService {
     private IndexCategoryMapper indexCategoryMapper;
 
     @Override
-    public boolean addIndexCategory(IndexCategory indexCategory) {
+    public boolean addIndexCategory(IndexCategoryVO indexCategoryVO) {
 //        indexCategory.setPkId((long) new Random().nextInt(Integer.MAX_VALUE));
-        if (indexCategory.getLevel() == null) {
-            indexCategory.setLevel(1); // 默认层级
+        if (indexCategoryVO.getLevel() == null) {
+            indexCategoryVO.setLevel(1); // 默认层级
         }
-        if (indexCategory.getType() == null) {
-            indexCategory.setType(0); // 默认类型
+        if (indexCategoryVO.getType() == null) {
+            indexCategoryVO.setType(0); // 默认类型
         }
-        indexCategory.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        indexCategory.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-        return indexCategoryMapper.insert(indexCategory) > 0;
+        indexCategoryVO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        indexCategoryVO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        return indexCategoryMapper.insert(IndexCategoryConvert.INSTANCE.convert(indexCategoryVO)) > 0;
     }
 
 
     @Override
-    public boolean updateIndexCategory(Long pkId, String name, Integer isShow, Integer sort, Long parentId) {
+    public boolean updateIndexCategory(Integer pkId, String name, Integer isShow, Integer sort, Integer parentId) {
         QueryWrapper<IndexCategory> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("pk_id", pkId);
         IndexCategory indexCategory = indexCategoryMapper.selectOne(queryWrapper);
@@ -50,15 +52,16 @@ public class IndexCategoryServiceImpl implements IndexCategoryService {
     }
 
 
-
     @Override
     public boolean deleteIndexCategory(Long pkId) {
         return indexCategoryMapper.deleteById(pkId) > 0;
     }
 
     @Override
-    public List<IndexCategory> getIndexCategories() {
-        return indexCategoryMapper.selectList(null);
+    public List<IndexCategoryVO> getIndexCategories() {
+        List<IndexCategory> indexCategoryList = indexCategoryMapper.selectList(null);
+        return TreeUtils.build(IndexCategoryConvert.INSTANCE.convertToIndexCategoryVOList(indexCategoryList));
+
     }
 
 }
