@@ -2,7 +2,11 @@ package top.zhu.tcomadminapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import top.zhu.tcomadminapi.common.result.PageResult;
+import top.zhu.tcomadminapi.common.result.Result;
 import top.zhu.tcomadminapi.model.entity.ProfessorCategory;
+import top.zhu.tcomadminapi.model.vo.ProfessorCategoryVO;
+import top.zhu.tcomadminapi.model.vo.ResourceCategoryVO;
 import top.zhu.tcomadminapi.service.ProfessorCategoryService;
 
 import java.util.List;
@@ -53,8 +57,10 @@ public class ProfessorCategoryController {
      * 查询所有专家分类
      */
     @GetMapping("/list")
-    public List<ProfessorCategory> getAllProfessorCategories() {
-        return professorCategoryService.list();
+    public Result<PageResult<ProfessorCategoryVO>> getAllProfessorCategories() {
+        List<ProfessorCategoryVO> list = professorCategoryService.getProfessorCategories();
+        PageResult<ProfessorCategoryVO> page = new PageResult<>(list, list.size());
+        return Result.ok(page);
     }
 
     /**
