@@ -2,6 +2,7 @@ package top.zhu.tcomadminapi.convert;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import top.zhu.tcomadminapi.model.dto.ProfessorCategoryEditDTO;
 import top.zhu.tcomadminapi.model.entity.ProfessorCategory;
 import top.zhu.tcomadminapi.model.vo.ProfessorCategoryVO;
 
@@ -15,6 +16,8 @@ public interface ProfessorCategoryConvert {
     ProfessorCategoryVO convert(ProfessorCategory professorCategory);
 
     ProfessorCategory convert(ProfessorCategoryVO professorCategoryVO);
+
+    ProfessorCategory convert(ProfessorCategoryEditDTO dto);
 
     List<ProfessorCategoryVO> convertToProfessorCategoryVOList(List<ProfessorCategory> resourceCategorys);
 }

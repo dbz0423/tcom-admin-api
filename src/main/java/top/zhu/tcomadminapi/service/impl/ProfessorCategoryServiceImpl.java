@@ -9,14 +9,19 @@ import org.springframework.stereotype.Service;
 
 import top.zhu.tcomadminapi.common.model.Query;
 import top.zhu.tcomadminapi.common.result.PageResult;
+import top.zhu.tcomadminapi.convert.IndexCategoryConvert;
 import top.zhu.tcomadminapi.convert.ProfessorCategoryConvert;
 import top.zhu.tcomadminapi.mapper.ProfessorCategoryMapper;
 import top.zhu.tcomadminapi.mapper.ProfessorMapper;
+import top.zhu.tcomadminapi.model.dto.ProfessorCategoryEditDTO;
+import top.zhu.tcomadminapi.model.entity.IndexCategory;
 import top.zhu.tcomadminapi.model.entity.ProfessorCategory;
+import top.zhu.tcomadminapi.model.vo.IndexCategoryVO;
 import top.zhu.tcomadminapi.model.vo.ProfessorCategoryVO;
 import top.zhu.tcomadminapi.service.ProfessorCategoryService;
 import top.zhu.tcomadminapi.utils.TreeUtils;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -69,5 +74,41 @@ public class ProfessorCategoryServiceImpl extends ServiceImpl<ProfessorCategoryM
     public List<ProfessorCategoryVO> getProfessorCategories() {
         List<ProfessorCategory> professorCategoryList = professorCategoryMapper.selectList(null);
         return TreeUtils.build(ProfessorCategoryConvert.INSTANCE.convertToProfessorCategoryVOList(professorCategoryList));
+    }
+
+    @Override
+    public boolean addProfessorCategory(ProfessorCategoryVO professorCategoryVO) {
+        if (professorCategoryVO.getLevel() == null) {
+            if (professorCategoryVO.getParentId() == 0) {
+                professorCategoryVO.setLevel(0);
+            } else {
+                professorCategoryVO.setLevel(1);
+            }
+        }
+        professorCategoryVO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        professorCategoryVO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        return professorCategoryMapper.insert(ProfessorCategoryConvert.INSTANCE.convert(professorCategoryVO)) > 0;
+    }
+
+    @Override
+    public boolean updateProfessorCategory(Integer pkId, String name, String cover, Integer sort, Integer parentId) {
+        QueryWrapper<ProfessorCategory> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("pk_id", pkId);
+        ProfessorCategory professorCategory = professorCategoryMapper.selectOne(queryWrapper);
+
+        if (professorCategory != null) {
+            professorCategory.setName(name);
+            professorCategory.setSort(sort);
+            professorCategory.setCover(cover);
+            professorCategory.setParentId(parentId); // 更新 parent_id
+            professorCategory.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            return professorCategoryMapper.updateById(professorCategory) > 0;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteProfessorCategory(Long pkId) {
+        return professorCategoryMapper.deleteById(pkId) > 0;
     }
 }

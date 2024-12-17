@@ -1,48 +1,61 @@
 package top.zhu.tcomadminapi.controller;
 
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.zhu.tcomadminapi.common.result.PageResult;
 import top.zhu.tcomadminapi.common.result.Result;
+import top.zhu.tcomadminapi.model.dto.ProfessorCategoryEditDTO;
 import top.zhu.tcomadminapi.model.entity.ProfessorCategory;
+import top.zhu.tcomadminapi.model.vo.IndexCategoryVO;
 import top.zhu.tcomadminapi.model.vo.ProfessorCategoryVO;
 import top.zhu.tcomadminapi.model.vo.ResourceCategoryVO;
 import top.zhu.tcomadminapi.service.ProfessorCategoryService;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
  * 专家分类管理
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/v1/professor-category")
 public class ProfessorCategoryController {
 
-    @Autowired
-    private ProfessorCategoryService professorCategoryService;
+    private final ProfessorCategoryService professorCategoryService;
 
     /**
      * 新增专家分类
      */
     @PostMapping("/add")
-    public boolean addProfessorCategory(@RequestBody ProfessorCategory professorCategory) {
-        return professorCategoryService.save(professorCategory);
+    public Result<String> add(@RequestBody ProfessorCategoryVO professorCategoryVO) {
+        System.out.println("接收到的数据: " + professorCategoryVO); // 调试打印
+
+        professorCategoryVO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        professorCategoryVO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+
+        boolean success = professorCategoryService.addProfessorCategory(professorCategoryVO);
+        return success ? Result.ok("分类添加成功") : Result.error("分类添加失败");
     }
 
     /**
-     * 更新专家分类
+     * 修改专家分类
      */
     @PutMapping("/update")
-    public boolean updateProfessorCategory(@RequestBody ProfessorCategory professorCategory) {
-        return professorCategoryService.updateById(professorCategory);
+    public Result<String> updateProfessorCategory(@RequestBody ProfessorCategoryEditDTO request) {
+        boolean success = professorCategoryService.updateProfessorCategory(request.getPkId(), request.getName(), request.getCover(), request.getSort(), request.getParentId());
+        return success ? Result.ok("分类修改成功") : Result.error("分类不存在");
     }
 
     /**
      * 删除专家分类
      */
-    @DeleteMapping("/delete/{id}")
-    public boolean deleteProfessorCategory(@PathVariable("id") Long id) {
-        return professorCategoryService.removeById(id);
+    @DeleteMapping("/delete/{pkId}")
+    public Result<String> deleteProfessorCategory(@PathVariable Long pkId) {
+        boolean success = professorCategoryService.deleteProfessorCategory(pkId);
+        return success ? Result.ok("分类删除成功") : Result.error("分类不存在");
     }
 
     /**
