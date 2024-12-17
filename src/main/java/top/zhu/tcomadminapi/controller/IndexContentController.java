@@ -18,7 +18,7 @@ import java.util.List;
  * 首页内容管理
  */
 @RestController
-@RequestMapping("/v1/index-content")
+@RequestMapping("/v1/indexContent")
 public class IndexContentController {
 
     @Autowired
@@ -71,7 +71,7 @@ public class IndexContentController {
      * 删除首页内容
      */
     @Operation(summary = "删除首页内容", description = "根据ID删除指定的首页内容")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public Result<Boolean> deleteIndexContent(@PathVariable("id") Long pkId) {
         boolean result = indexContentService.deleteIndexContent(pkId);
         if (result) {
