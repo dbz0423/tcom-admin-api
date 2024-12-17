@@ -29,9 +29,10 @@ public class User {
     private Integer area;      // 区
     private Integer hospital;  // 医院
 
-    @TableField(fill = FieldFill.INSERT)
-    private Timestamp createTime;  // 创建时间
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    private Timestamp createTime = new Timestamp(System.currentTimeMillis());  // 插入时自动填充当前时间
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Timestamp updateTime;  // 更新时间
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    private Timestamp updateTime = new Timestamp(System.currentTimeMillis()); // 更新时自动填充当前时间
+
 }
