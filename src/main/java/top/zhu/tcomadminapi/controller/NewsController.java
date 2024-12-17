@@ -36,7 +36,7 @@ public class NewsController {
 
     /**
      * 更新资讯
-     * @param newsVO 资讯数据传输实体
+     * @param news 资讯数据传输实体
      * @return 返回操作结果
      */
     @PutMapping("/update")

@@ -16,11 +16,13 @@ public class Course {
 
     private Integer sort;            // 排序值
 
-    private String cover;            // 封面
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private String cover = "cover/GXxZezMGQ8.png";            // 封面
 
     private String brief;            // 课程简介
 
-    private String authorAvatar;     // 作者头像
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private String authorAvatar = "avatar/QGM3tAcXYN.png";     // 作者头像
 
     private String authorBrief;      // 作者简介
 
