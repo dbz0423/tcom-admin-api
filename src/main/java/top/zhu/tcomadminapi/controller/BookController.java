@@ -28,7 +28,7 @@ public class BookController {
      * @return 返回新增成功或失败的状态码和消息
      */
     @Operation(summary = "新增图书", description = "新增一本图书")
-    @PostMapping
+    @PostMapping("/add")
     public Result<?> addBook(@RequestBody Book book) {
         boolean success = bookService.save(book);
         return success ? Result.ok("图书新增成功") : Result.error("图书新增失败");
@@ -41,7 +41,7 @@ public class BookController {
      * @return 返回 200 OK 或 404 Not Found 状态码
      */
     @Operation(summary = "删除图书", description = "根据 ID 删除图书")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public Result<?> deleteBook(@PathVariable("id") Integer pkId) {
         boolean success = bookService.removeById(pkId);
         return success ? Result.ok("图书删除成功") : Result.error("图书删除失败");
@@ -67,7 +67,7 @@ public class BookController {
      * @return 返回 200 OK 或 400 Bad Request 状态码
      */
     @Operation(summary = "更新图书", description = "更新图书信息")
-    @PutMapping
+    @PutMapping("/update")
     public Result<?> updateBook(@RequestBody Book book) {
         boolean success = bookService.updateById(book);
         return success ? Result.ok("图书更新成功") : Result.error("图书更新失败");
