@@ -1,12 +1,15 @@
 package top.zhu.tcomadminapi.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.itextpdf.text.Chapter;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import top.zhu.tcomadminapi.common.result.Result;
 import org.springframework.web.bind.annotation.*;
 import top.zhu.tcomadminapi.model.entity.Book;
+import top.zhu.tcomadminapi.model.entity.BookChapter;
+import top.zhu.tcomadminapi.service.BookChapterContentService;
 import top.zhu.tcomadminapi.service.BookService;
 
 import java.util.List;
@@ -116,4 +119,6 @@ public class BookController {
 
         return Result.ok(page);
     }
+
+
 }
