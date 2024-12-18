@@ -2,7 +2,9 @@ package top.zhu.tcomadminapi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.AllArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import top.zhu.tcomadminapi.common.config.RedisConfig;
 import top.zhu.tcomadminapi.convert.PaperConvert;
 import top.zhu.tcomadminapi.mapper.*;
 import top.zhu.tcomadminapi.model.dto.CityExamineesInfoDTO;
@@ -17,6 +19,7 @@ import top.zhu.tcomadminapi.service.ScreenService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -27,6 +30,8 @@ public class ScreenServiceImpl implements ScreenService {
     private QuizItemExamMapper quizItemExamMapper;
     private QuizItemExamStudentMapper quizItemExamStudentMapper;
     private UserExaminationMapper userExaminationMapper;
+
+    private RedisTemplate redisTemplate;
 
     @Override
     public ExaminationVO getExamination(Integer examId) {
@@ -92,7 +97,6 @@ public class ScreenServiceImpl implements ScreenService {
         List<UserExamination> userExaminations = userExaminationMapper.selectList(wrapper);
         ExamineesVO examineesVO = new ExamineesVO();
         examineesVO.setExamineesTotal(userExaminations.size());
-        examineesVO.setActualExamineesTotal(userExaminations.size());
         wrapper.eq("is_finish", 1);
         userExaminations = userExaminationMapper.selectList(wrapper);
         examineesVO.setCompleteTotal(userExaminations.size());
@@ -100,6 +104,7 @@ public class ScreenServiceImpl implements ScreenService {
         wrapper.ge("score", 60);
         userExaminations = userExaminationMapper.selectList(wrapper);
         examineesVO.setPassTotal(userExaminations.size());
+        examineesVO.setActualExamineesTotal(Integer.valueOf((String) Objects.requireNonNull(redisTemplate.opsForValue().get("exam:userNum"))));
 
         List<CityExamineesInfoDTO> cityExamineesInfoDTOList = new ArrayList<>();
         for (int i = 0; i < cities.length; i++) {
