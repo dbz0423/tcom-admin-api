@@ -8,4 +8,5 @@ import java.util.List;
 public interface CommonService {
     String upload(MultipartFile file);
     List<String> uploadPdf(MultipartFile file) throws IOException;
+
 }

@@ -5,6 +5,7 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.ObjectMetadata;
 
 
+
 import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 import top.zhu.tcomadminapi.common.config.OssConfig;
 import top.zhu.tcomadminapi.common.exception.ServerException;
 import top.zhu.tcomadminapi.service.CommonService;
+
+
+import java.io.IOException;
+import java.io.InputStream;
+
 import top.zhu.tcomadminapi.service.PdfService;
 
 
@@ -40,6 +46,7 @@ public class CommonServiceImpl implements CommonService {
     private static final String[] IMAGE_TYPE = new String[]{".bmp", ".jpg",
             ".jpeg", ".gif", ".png"};
     private static final String IMAGE_TYPE_PDF = new String(".pdf");
+
 
     @Override
     public String upload(MultipartFile file) {
@@ -107,6 +114,7 @@ public class CommonServiceImpl implements CommonService {
 
         return returnImgUrl;
     }
+
 
     @Override
     public List<String> uploadPdf(MultipartFile file) throws IOException {
@@ -260,4 +268,5 @@ public class CommonServiceImpl implements CommonService {
 
         return imageFiles;
     }
+
 }

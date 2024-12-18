@@ -11,6 +11,9 @@ import top.zhu.tcomadminapi.common.result.QuestionPageResult;
 import top.zhu.tcomadminapi.common.result.OperationResult;
 import top.zhu.tcomadminapi.mapper.QuestionBankMapper;
 import top.zhu.tcomadminapi.mapper.QuestionBankOptionMapper;
+import top.zhu.tcomadminapi.model.dto.QuestionBankDTO;
+import top.zhu.tcomadminapi.model.dto.QuestionBankOptionDTO;
+import top.zhu.tcomadminapi.model.dto.UpdateQuestionDTO;
 import top.zhu.tcomadminapi.model.entity.QuestionBank;
 import top.zhu.tcomadminapi.model.entity.QuestionBankOption;
 import top.zhu.tcomadminapi.model.vo.QuestionSearch;
@@ -21,7 +24,9 @@ import top.zhu.tcomadminapi.service.QuestionService;
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -98,11 +103,76 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionBankMapper, Questio
         return new QuestionPageResult<>(questionVOList, questionPage.getTotal(), (int) questionPage.getCurrent(), (int) questionPage.getSize());
     }
 
+
     @Override
-    public OperationResult addQuestion(QuestionBank questionBank) {
-        return null;
+    public OperationResult addQuestion(QuestionBankDTO questionBankDTO) {
+        try {
+            // 创建 QuestionBank 实体并设置默认值
+            QuestionBank questionBank = new QuestionBank();
+            questionBank.setQuestion(questionBankDTO.getQuestion());
+            questionBank.setAnswer(questionBankDTO.getAnswer());
+            questionBank.setOptionType(questionBankDTO.getOptionType());
+            questionBank.setType(0); // 默认 type 为 0
+            questionBank.setContentId(0); // 默认 content_id 为 0
+
+            // 根据题型处理 word_limit 字段
+            if (questionBankDTO.getOptionType() == 2) { // 填空题
+                if (questionBankDTO.getAnswer() == null || questionBankDTO.getAnswer().isEmpty()) {
+                    return OperationResult.failure("填空题答案不能为空！");
+                }
+                questionBank.setWordLimit(questionBankDTO.getAnswer().length());
+            } else { // 选择题
+                questionBank.setWordLimit(0);
+            }
+
+            // 获取当前时间
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+            questionBank.setCreateTime(currentTime);
+            questionBank.setUpdateTime(currentTime);
+
+            // 插入题目表并获取生成的主键
+            questionBankMapper.insert(questionBank);
+            Integer bankId = questionBank.getPkId();
+
+            // 如果是选择题，处理选项内容
+            if (questionBankDTO.getOptionType() == 0 || questionBankDTO.getOptionType() == 1) {
+                List<QuestionBankOptionDTO> optionDTOs = questionBankDTO.getOptions();
+                if (optionDTOs == null || optionDTOs.isEmpty()) {
+                    return OperationResult.failure("选择题选项不能为空！");
+                }
+
+                char optionChar = 'A'; // 从 'A' 开始分配选项值
+
+                for (QuestionBankOptionDTO optionDTO : optionDTOs) {
+                    if (optionDTO.getContent() == null || optionDTO.getContent().isEmpty()) {
+                        return OperationResult.failure("选项内容不能为空！");
+                    }
+
+                    // 转换为 QuestionBankOption 实体
+                    QuestionBankOption option = new QuestionBankOption();
+                    option.setBankId(bankId);
+                    option.setOption(String.valueOf(optionChar)); // 设置选项标识符 (A, B, C...)
+                    option.setContent(optionDTO.getContent());
+                    option.setCreateTime(currentTime);
+                    option.setUpdateTime(currentTime);
+                    optionChar++;
+
+                    // 插入选项表
+                    questionBankOptionMapper.insert(option);
+                }
+            }
+
+            // 返回操作成功结果
+            return OperationResult.success("题目新增成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return OperationResult.failure("新增题目失败: " + e.getMessage());
+        }
     }
 
+
+
+    //实现同时删除两个表的逻辑
     @Transactional
     @Override
     public OperationResult deleteQuestion(@RequestBody Integer pkId) {
@@ -137,13 +207,80 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionBankMapper, Questio
         }
     }
 
+    @Override
+    public OperationResult updateQuestion(UpdateQuestionDTO updateRequest) {
+        try {
+            // 1. 校验题目是否存在
+            QuestionBank existingQuestion = questionBankMapper.selectById(updateRequest.getPkId());
+            if (existingQuestion == null) {
+                return OperationResult.failure("题目不存在，更新失败！");
+            }
 
+            // 2. 更新题目信息
+            existingQuestion.setQuestion(updateRequest.getQuestion());
+            existingQuestion.setAnswer(updateRequest.getAnswer());
+            existingQuestion.setOptionType(updateRequest.getOptionType());
+            existingQuestion.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            questionBankMapper.updateById(existingQuestion);
 
+            // 3. 处理选项 (仅适用于选择题)
+            if (updateRequest.getOptionType() == 0 || updateRequest.getOptionType() == 1) {
+                List<QuestionBankOption> oldOptions = questionBankOptionMapper.selectList(
+                        new QueryWrapper<QuestionBankOption>().eq("bank_id", updateRequest.getPkId())
+                );
+
+                List<QuestionBankOptionDTO> newOptions = updateRequest.getOptions();
+
+                // 构建映射表方便对比
+                Map<Integer, String> oldOptionMap = oldOptions.stream()
+                        .collect(Collectors.toMap(QuestionBankOption::getPkId, QuestionBankOption::getContent));
+                Set<String> newOptionContents = newOptions.stream()
+                        .map(QuestionBankOptionDTO::getContent)
+                        .collect(Collectors.toSet());
+
+                // 删除旧选项中不存在于新选项的内容
+                for (QuestionBankOption oldOption : oldOptions) {
+                    if (!newOptionContents.contains(oldOption.getContent())) {
+                        questionBankOptionMapper.deleteById(oldOption.getPkId());
+                    }
+                }
+
+                // 遍历新选项，插入或更新
+                for (QuestionBankOptionDTO newOptionDTO : newOptions) {
+                    boolean found = false;
+
+                    // 判断是否需要更新
+                    for (QuestionBankOption oldOption : oldOptions) {
+                        if (oldOption.getContent().equals(newOptionDTO.getContent())) {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        // 新增选项
+                        QuestionBankOption newOption = new QuestionBankOption();
+                        newOption.setBankId(updateRequest.getPkId());
+                        newOption.setContent(newOptionDTO.getContent());
+                        newOption.setCreateTime(new Timestamp(System.currentTimeMillis()));
+                        newOption.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+                        questionBankOptionMapper.insert(newOption);
+                    }
+                }
+            }
+
+            return OperationResult.success("题目更新成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return OperationResult.failure("更新题目失败：" + e.getMessage());
+        }
+    }
 
     @Override
-    public OperationResult updateQuestion(UpdateQuestionRequest updateRequest) {
-        return null;
+    public List<QuestionBank> getUnboundQuestions() {
+        return questionBankMapper.selectUnboundQuestions();
     }
+
 
     // 辅助方法：获取题目选项
     private List<String> getOptionsForQuestion(Integer bankId, Integer optionType) {

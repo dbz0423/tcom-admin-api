@@ -25,9 +25,11 @@ public class CommonController {
         return Result.ok(commonService.upload(file));
     }
 
+
     @PostMapping( "/upload/pdf")
     @Operation(summary = "pdf文件上传")
     public Result<List<String>> uploadPdf(@RequestParam MultipartFile file) throws IOException {
         return Result.ok(commonService.uploadPdf(file));
     }
+
 }

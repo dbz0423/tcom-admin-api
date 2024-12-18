@@ -22,4 +22,14 @@ public class OperationResult implements Serializable {
 
     @Schema(description = "操作信息")
     private String message;
+
+    // 静态工厂方法：成功结果
+    public static OperationResult success(String message) {
+        return new OperationResult(true, message);
+    }
+
+    // 静态工厂方法：失败结果
+    public static OperationResult failure(String message) {
+        return new OperationResult(false, message);
+    }
 }
