@@ -22,6 +22,7 @@ import top.zhu.tcomadminapi.service.ProfessorCategoryService;
 import top.zhu.tcomadminapi.utils.TreeUtils;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -85,8 +86,8 @@ public class ProfessorCategoryServiceImpl extends ServiceImpl<ProfessorCategoryM
                 professorCategoryVO.setLevel(1);
             }
         }
-        professorCategoryVO.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        professorCategoryVO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        professorCategoryVO.setCreateTime(LocalDateTime.now());
+        professorCategoryVO.setUpdateTime(LocalDateTime.now());
         return professorCategoryMapper.insert(ProfessorCategoryConvert.INSTANCE.convert(professorCategoryVO)) > 0;
     }
 
@@ -101,7 +102,7 @@ public class ProfessorCategoryServiceImpl extends ServiceImpl<ProfessorCategoryM
             professorCategory.setSort(sort);
             professorCategory.setCover(cover);
             professorCategory.setParentId(parentId); // 更新 parent_id
-            professorCategory.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            professorCategory.setUpdateTime(LocalDateTime.now());
             return professorCategoryMapper.updateById(professorCategory) > 0;
         }
         return false;

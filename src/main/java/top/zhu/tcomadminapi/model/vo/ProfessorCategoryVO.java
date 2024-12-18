@@ -12,7 +12,7 @@ import lombok.Setter;
 import top.zhu.tcomadminapi.common.model.TreeNode;
 import top.zhu.tcomadminapi.utils.DateUtils;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Getter
@@ -29,11 +29,11 @@ public class ProfessorCategoryVO extends TreeNode<ProfessorCategoryVO> {
 
     @Schema(description = "创建时间")
     @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-    private Timestamp createTime;
+    private LocalDateTime createTime;
 
     @Schema(description = "更新时间")
     @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-    private Timestamp updateTime;
+    private LocalDateTime updateTime;
 
     private Integer level;        // 分类级别
 

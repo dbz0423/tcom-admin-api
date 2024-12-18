@@ -14,6 +14,7 @@ import top.zhu.tcomadminapi.model.vo.ResourceCategoryVO;
 import top.zhu.tcomadminapi.service.ProfessorCategoryService;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -33,8 +34,8 @@ public class ProfessorCategoryController {
     public Result<String> add(@RequestBody ProfessorCategoryVO professorCategoryVO) {
         System.out.println("接收到的数据: " + professorCategoryVO); // 调试打印
 
-        professorCategoryVO.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        professorCategoryVO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        professorCategoryVO.setCreateTime(LocalDateTime.now());
+        professorCategoryVO.setUpdateTime(LocalDateTime.now());
 
         boolean success = professorCategoryService.addProfessorCategory(professorCategoryVO);
         return success ? Result.ok("分类添加成功") : Result.error("分类添加失败");
