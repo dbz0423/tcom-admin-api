@@ -3,7 +3,7 @@ package top.zhu.tcomadminapi.model.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * 专家分类表实体类
@@ -20,10 +20,10 @@ public class ProfessorCategory {
     private String cover;         // 封面
 
     @TableField(value="create_time",fill= FieldFill.INSERT)
-    private Timestamp createTime;  // create_time
+    private LocalDateTime createTime;  // create_time
 
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private Timestamp updateTime;  // update_time
+    private LocalDateTime updateTime;  // update_time
 
     private Integer level;        // 分类级别
 
