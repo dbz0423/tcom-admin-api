@@ -3,9 +3,11 @@ package top.zhu.tcomadminapi.model.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @Schema(name = "CityExamineesInfoDTO", description = "每个城市的考生信息传输对象")
 public class CityExamineesInfoDTO {
 

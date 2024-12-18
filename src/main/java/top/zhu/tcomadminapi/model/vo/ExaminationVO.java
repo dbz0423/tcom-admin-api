@@ -17,5 +17,5 @@ public class ExaminationVO {
     private List<String> titles;
 
     @Schema(description = "考卷列表")
-    private List<ExamItemInfoDTO> exams;
+    private List<List<ExamItemInfoDTO>> exams;
 }
