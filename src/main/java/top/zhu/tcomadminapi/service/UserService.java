@@ -30,7 +30,7 @@ public interface UserService extends IService<User> {
     List<User> searchUsers(String nickname, String phone, Integer role);
 
     // 分页查询用户
-    Page<User> getUserPage(int pageNum, int pageSize);
+    Page<User> getUserPage(int pageNum, int pageSize, String nickname, String phone, Integer role);
 
 }
 
