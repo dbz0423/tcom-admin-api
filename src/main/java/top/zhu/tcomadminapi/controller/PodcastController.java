@@ -29,7 +29,7 @@ public class PodcastController {
      * @return 返回新增成功或失败的状态码和消息
      */
     @Operation(summary = "新增播客", description = "新增一条播客信息")
-    @PostMapping
+    @PostMapping("/add")
     public Result<?> addPodcast(@RequestBody Podcast podcast) {
         boolean success = podcastService.save(podcast);
         return success ? Result.ok("播客新增成功") : Result.error("播客新增失败");
@@ -42,7 +42,7 @@ public class PodcastController {
      * @return 返回 200 OK 或 404 Not Found 状态码
      */
     @Operation(summary = "删除播客", description = "根据 ID 删除播客")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public Result<?> deletePodcast(@PathVariable("id") Integer pkId) {
         boolean success = podcastService.removeById(pkId);
         return success ? Result.ok("播客删除成功") : Result.error("播客删除失败");
@@ -68,7 +68,7 @@ public class PodcastController {
      * @return 返回 200 OK 或 400 Bad Request 状态码
      */
     @Operation(summary = "更新播客", description = "更新播客信息")
-    @PutMapping
+    @PutMapping("/update")
     public Result<?> updatePodcast(@RequestBody Podcast podcast) {
         boolean success = podcastService.updateById(podcast);
         return success ? Result.ok("播客更新成功") : Result.error("播客更新失败");

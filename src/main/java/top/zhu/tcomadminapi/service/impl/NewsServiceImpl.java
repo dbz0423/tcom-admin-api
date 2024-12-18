@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import top.zhu.tcomadminapi.common.result.PageResult;
+import top.zhu.tcomadminapi.convert.NewsConvert;
 import top.zhu.tcomadminapi.mapper.NewsMapper;
 import top.zhu.tcomadminapi.model.entity.News;
+import top.zhu.tcomadminapi.model.vo.NewsVO;
 import top.zhu.tcomadminapi.service.NewsService;
 
 import java.util.List;
@@ -18,12 +20,19 @@ import java.util.List;
 public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements NewsService {
 
     @Override
-    public boolean addNews(News news) {
-        return save(news); // MyBatis-Plus 提供的保存方法
+    public boolean addNews(NewsVO newsVO) {
+        if (newsVO.getCover() == null) {
+            newsVO.setCover("avatar/4yZSJHBrsa.jpg");
+        }
+        System.out.println(newsVO.getContent());
+        return save(NewsConvert.INSTANCE.convert(newsVO)); // MyBatis-Plus 提供的保存方法
     }
 
     @Override
     public boolean updateNews(News news) {
+        if (news.getCover() == null) {
+            news.setCover("avatar/4yZSJHBrsa.jpg");
+        }
         return updateById(news); // MyBatis-Plus 提供的更新方法
     }
 

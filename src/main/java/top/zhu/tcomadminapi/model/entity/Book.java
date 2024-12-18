@@ -16,7 +16,8 @@ public class Book {
 
     private String title; // 书名
 
-    private String cover; // 封面
+    @TableField(fill = FieldFill.INSERT)
+    private String cover = "cover/saJjxTjc8w.png"; // 封面
 
     private String titleEn; // 英文书名
 

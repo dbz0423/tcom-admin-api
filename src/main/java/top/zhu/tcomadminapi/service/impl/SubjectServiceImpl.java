@@ -74,7 +74,14 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
         if (subject.getLabel() == null) {
             subject.setLabel("");  // 设置为空字符串
         }
+        if (subject.getType() == null) {
+            subject.setType(0);
 
+        }
+        if (subject.getCover() == null) {
+            subject.setCover("cover/MwDMNwxk4H.png");
+
+        }
         subjectMapper.insert(subject);
     }
 

@@ -16,4 +16,7 @@ class ScreenServiceImplTest {
     void getExamination() {
         log.info(screenService.getExamination(3).toString());
     }
+
+    @Test
+    void getExamination2() {log.info(screenService.getExaminees(3).toString());}
 }

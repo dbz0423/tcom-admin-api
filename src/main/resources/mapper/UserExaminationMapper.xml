@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zhu.tcomadminapi.mapper.UserExaminationMapper">
+
+    <select id="selectExaminationFromCity" resultType="top.zhu.tcomadminapi.model.entity.UserExamination">
+        SELECT tue.is_finish, tue.score FROM t_user_examination tue LEFT JOIN t_user ts ON ts.pk_id = tue.user_id WHERE ts.city = #{cityId}
+    </select>
+
+    <select id="selectExaminationFromCityAndFinish" resultType="top.zhu.tcomadminapi.model.entity.UserExamination">
+        SELECT tue.is_finish, tue.score FROM t_user_examination tue LEFT JOIN t_user ts ON ts.pk_id = tue.user_id WHERE ts.city = #{cityId} AND tue.is_finish = 1
+    </select>
+
+    <select id="selectExaminationFromCityAndPass" resultType="top.zhu.tcomadminapi.model.entity.UserExamination">
+        SELECT tue.is_finish, tue.score FROM t_user_examination tue LEFT JOIN t_user ts ON ts.pk_id = tue.user_id WHERE ts.city = #{cityId} AND tue.score >= 60
+    </select>
+</mapper>

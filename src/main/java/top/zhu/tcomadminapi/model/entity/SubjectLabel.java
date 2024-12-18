@@ -19,7 +19,8 @@ public class SubjectLabel {
 
     private String brief;         // 标签描述
 
-    private String cover;         // 标签封面
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private String cover = "https://medicineonline.oss-cn-hangzhou.aliyuncs.com/cover/8Sjrpw5Jx3.png";         // 标签封面
 
     @TableField(value="create_time",fill= FieldFill.INSERT)
     private Timestamp createTime; // 创建时间

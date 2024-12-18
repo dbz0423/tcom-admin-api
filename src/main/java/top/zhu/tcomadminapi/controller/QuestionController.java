@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.zhu.tcomadminapi.common.result.Result;
 import top.zhu.tcomadminapi.model.dto.DeleteQuestionpkIdDTO;
+import top.zhu.tcomadminapi.model.dto.QuestionBankDTO;
+import top.zhu.tcomadminapi.model.dto.UpdateQuestionDTO;
 import top.zhu.tcomadminapi.model.entity.QuestionBank;
 import top.zhu.tcomadminapi.model.vo.QuestionSearch;
 import top.zhu.tcomadminapi.model.vo.DeleteQuestionRequest;
@@ -31,6 +33,7 @@ public class QuestionController {
     // 使用构造器注入
     @Autowired
     public QuestionController(QuestionService questionService) {
+
         this.questionService = questionService;
     }
 
@@ -60,11 +63,12 @@ public class QuestionController {
     }
 
 
-    @PostMapping
+    @PostMapping("/create")
     @Operation(summary = "新增题目", description = "新增题目及其选项")
-    public OperationResult addQuestion(@Valid @RequestBody QuestionBank questionBank) {
-        return questionService.addQuestion(questionBank);
+    public OperationResult addQuestion(@Valid @RequestBody QuestionBankDTO questionBankDTO) {
+        return questionService.addQuestion(questionBankDTO);
     }
+
 
     @DeleteMapping("/delete")
     public OperationResult deleteQuestion(@RequestBody DeleteQuestionpkIdDTO request) {
@@ -75,9 +79,16 @@ public class QuestionController {
         return questionService.deleteQuestion(pkId);
     }
 
-    @PutMapping
-    @Operation(summary = "更新题目", description = "根据题目ID更新题目及其选项")
-    public OperationResult updateQuestion(@Valid @RequestBody UpdateQuestionRequest updateRequest) {
+    @PutMapping("/update")
+    @Operation(summary = "更新题目", description = "更新题目及其选项")
+    public OperationResult updateQuestion(@Valid @RequestBody UpdateQuestionDTO updateRequest) {
         return questionService.updateQuestion(updateRequest);
     }
+
+    @GetMapping("/unbound")
+    @Operation(summary = "查询未绑定到练习的题目列表")
+    public List<QuestionBank> getUnboundQuestions() {
+        return questionService.getUnboundQuestions();
+    }
+
 }

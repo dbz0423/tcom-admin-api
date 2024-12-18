@@ -11,7 +11,8 @@ public class Subject {
     @TableId(value = "pk_id", type = IdType.AUTO)
     private Long pkId;            // 唯一标识
 
-    private Integer type;         // 类型: 0公共专题 1专属专题
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Integer type = 0;         // 类型: 0公共专题 1专属专题
 
     private String title;         // 标题
 
@@ -19,7 +20,8 @@ public class Subject {
 
     private String author;         // 作者
 
-    private String cover;         // 封面
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private String cover = "cover/MwDMNwxk4H.png";         // 封面
 
     private String label;         // 标签，多个用“，”隔开
 
