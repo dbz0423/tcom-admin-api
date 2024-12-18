@@ -15,7 +15,7 @@ import java.util.List;
 @Schema(description = "题干对象")
 public class QuestionBank {
 
-    // 主键字段
+    // 主键字段,对应试卷细节表的question_id
     @Schema(description = "主键唯一字段")
     @TableId(value = "pk_id", type = IdType.AUTO)
     private Integer pkId;
@@ -25,7 +25,7 @@ public class QuestionBank {
     @TableField("type")
     private Integer type;
 
-    // 内容 ID
+    // 内容 ID，对应选项表的bank_id
     @Schema(description = "内容ID")
     @TableField("content_id")
     private Integer contentId;
@@ -62,6 +62,6 @@ public class QuestionBank {
     private Timestamp updateTime;
 
     @TableField(exist = false)  // 确保它不参与数据库操作
-    @Schema(description = "选项")
+    @Schema(description = "选项，这个字段是实体类自创的，对应的t_question_bank表里面没有这个字段")
     private List<QuestionBankOption> options;
 }
