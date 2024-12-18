@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.zhu.tcomadminapi.mapper.BookChapterContentMapper">
+
+    <select id="getBookChapter" resultType="top.zhu.tcomadminapi.model.entity.BookChapter">
+        SELECT tbc.pk_id, tbc.start_page, tbc.num
+        FROM t_book_chapter tbc
+                 JOIN t_book tb ON tbc.book_id = tb.pk_id
+        WHERE tb.title = #{title}
+    </select>
+
+    <insert id="setBookChapterContent">
+        INSERT INTO t_book_chapter_content (chapter_id, content) VALUES (#{chapterId} , #{content});
+    </insert>
+</mapper>

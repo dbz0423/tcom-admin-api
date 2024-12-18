@@ -18,7 +18,7 @@ import java.util.List;
  * 专题管理
  */
 @RestController
-@RequestMapping("/v1/api/subject")
+@RequestMapping("/v1/subject")
 @AllArgsConstructor
 public class SubjectController {
 
@@ -51,7 +51,7 @@ public class SubjectController {
      * 添加新的专题
      */
     @Operation(summary = "添加新的专题", description = "创建一个新的专题")
-    @PostMapping
+    @PostMapping("/add")
     public Result<String> addSubject(
             @RequestBody @Valid SubjectVO subjectVO) {
         subjectService.addSubject(subjectVO);
@@ -62,11 +62,9 @@ public class SubjectController {
      * 更新专题信息
      */
     @Operation(summary = "更新专题", description = "根据 ID 更新专题信息")
-    @PutMapping("/{id}")
-    public Result<String> updateSubject(
-            @Parameter(description = "专题 ID") @PathVariable Long id,
-            @RequestBody @Valid SubjectVO subjectVO) {
-        subjectVO.setPkId(id); // 确保更新的 SubjectVO 有正确的 ID
+    @PutMapping("/update/{id}")
+    public Result<String> updateSubject(@RequestBody @Valid SubjectVO subjectVO) {
+        subjectVO.setPkId(subjectVO.getPkId()); // 确保更新的 SubjectVO 有正确的 ID
         subjectService.updateSubject(subjectVO);
         return Result.ok("专题更新成功");
     }
@@ -75,7 +73,7 @@ public class SubjectController {
      * 删除专题
      */
     @Operation(summary = "删除专题", description = "根据 ID 删除专题")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public Result<String> deleteSubject(
             @Parameter(description = "专题 ID") @PathVariable Long id) {
         subjectService.deleteSubject(id);

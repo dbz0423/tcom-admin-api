@@ -28,7 +28,7 @@ public class CourseController {
      * @return 返回新增成功或失败的状态码和消息
      */
     @Operation(summary = "新增课程", description = "新增一门课程")
-    @PostMapping
+    @PostMapping("/add")
     public Result<?> addCourse(@RequestBody Course course) {
         boolean success = courseService.addCourse(course);
         return success ? Result.ok("课程新增成功") : Result.error("课程新增失败");
@@ -41,7 +41,7 @@ public class CourseController {
      * @return 返回 200 OK 或 404 Not Found 状态码
      */
     @Operation(summary = "删除课程", description = "根据 ID 删除课程")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public Result<?> deleteCourse(@PathVariable("id") Integer pkId) {
         boolean success = courseService.deleteCourse(pkId);
         return success ? Result.ok("课程删除成功") : Result.error("课程删除失败");
@@ -67,7 +67,7 @@ public class CourseController {
      * @return 返回 200 OK 或 400 Bad Request 状态码
      */
     @Operation(summary = "更新课程", description = "更新课程信息")
-    @PutMapping
+    @PutMapping("/update")
     public Result<?> updateCourse(@RequestBody Course course) {
         boolean success = courseService.updateCourse(course);
         return success ? Result.ok("课程更新成功") : Result.error("课程更新失败");

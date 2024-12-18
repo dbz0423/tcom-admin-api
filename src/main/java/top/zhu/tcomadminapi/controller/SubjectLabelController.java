@@ -17,7 +17,7 @@ import java.util.List;
  * 标签管理
  */
 @RestController
-@RequestMapping("/v1/subject-label")
+@RequestMapping("/v1/subjectLabel")
 public class SubjectLabelController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class SubjectLabelController {
      * @return 返回操作结果
      */
     @Operation(summary = "新增标签", description = "根据传入的标签实体新增标签")
-    @PostMapping
+    @PostMapping("/add")
     public Result<?> addSubjectLabel(@RequestBody SubjectLabel subjectLabel) {
         boolean success = subjectLabelService.addSubjectLabel(subjectLabel);
         return success ? Result.ok("标签新增成功") : Result.error("标签新增失败");
@@ -41,7 +41,7 @@ public class SubjectLabelController {
      * @return 返回操作结果
      */
     @Operation(summary = "删除标签", description = "根据标签ID删除标签")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public Result<?> deleteSubjectLabel(@PathVariable("id") Long pkId) {
         boolean success = subjectLabelService.deleteSubjectLabel(pkId);
         return success ? Result.ok("标签删除成功") : Result.error("标签删除失败");
@@ -65,7 +65,7 @@ public class SubjectLabelController {
      * @return 返回操作结果
      */
     @Operation(summary = "更新标签", description = "根据传入的标签实体更新标签")
-    @PutMapping
+    @PutMapping("/update")
     public Result<?> updateSubjectLabel(@RequestBody SubjectLabel subjectLabel) {
         boolean success = subjectLabelService.updateSubjectLabel(subjectLabel);
         return success ? Result.ok("标签更新成功") : Result.error("标签更新失败");

@@ -23,7 +23,11 @@ public class IndexCategoryServiceImpl implements IndexCategoryService {
     public boolean addIndexCategory(IndexCategoryVO indexCategoryVO) {
 //        indexCategory.setPkId((long) new Random().nextInt(Integer.MAX_VALUE));
         if (indexCategoryVO.getLevel() == null) {
-            indexCategoryVO.setLevel(1); // 默认层级
+            if (indexCategoryVO.getParentId() == 0) {
+                indexCategoryVO.setLevel(0);
+            } else {
+                indexCategoryVO.setLevel(1);
+            }
         }
         if (indexCategoryVO.getType() == null) {
             indexCategoryVO.setType(0); // 默认类型
@@ -61,7 +65,6 @@ public class IndexCategoryServiceImpl implements IndexCategoryService {
     public List<IndexCategoryVO> getIndexCategories() {
         List<IndexCategory> indexCategoryList = indexCategoryMapper.selectList(null);
         return TreeUtils.build(IndexCategoryConvert.INSTANCE.convertToIndexCategoryVOList(indexCategoryList));
-
     }
 
 }

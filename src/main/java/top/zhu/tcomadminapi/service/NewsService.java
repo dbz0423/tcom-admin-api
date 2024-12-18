@@ -3,6 +3,7 @@ package top.zhu.tcomadminapi.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import top.zhu.tcomadminapi.common.result.PageResult;
 import top.zhu.tcomadminapi.model.entity.News;
+import top.zhu.tcomadminapi.model.vo.NewsVO;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public interface NewsService extends IService<News> {
     // 额外的服务方法（如果需要自定义增删改查等）
-    boolean addNews(News news);
+    boolean addNews(NewsVO newsVO);
     boolean updateNews(News news);
     boolean deleteNews(Integer pkId);
     boolean deleteNewsBatch(List<Integer> pkIds);
