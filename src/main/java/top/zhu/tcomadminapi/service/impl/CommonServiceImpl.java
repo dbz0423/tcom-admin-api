@@ -51,10 +51,7 @@ public class CommonServiceImpl implements CommonService {
     private OSSClient ossClient;
 
     private static final String[] IMAGE_TYPE = new String[]{".bmp", ".jpg",".jpeg", ".gif", ".png"};
-    private static final String IMAGE_TYPE_PDF = new String(".pdf");
-
-    @Value("${aliyun.oss.bucketName}")
-    private String bucketName;
+    private static final String IMAGE_TYPE_PDF = ".pdf";
 
   
   
@@ -102,6 +99,7 @@ public class CommonServiceImpl implements CommonService {
          */
         ObjectMetadata meta = new ObjectMetadata();
         meta.setContentType("image/jpg");
+        String bucketName = ossConfig.getBucketName();
 
         //文件上传至阿里云OSS
         ossClient.putObject(bucketName, uploadImgeUrl, inputStream, meta);
