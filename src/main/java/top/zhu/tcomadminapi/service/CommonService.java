@@ -14,7 +14,7 @@ public interface CommonService {
      * @param uploadFile 上传文件
      * @return 上传文件返回视图
      */
-    FileUrlVO upload(MultipartFile uploadFile);
+    FileUrlVO uploadPf(MultipartFile uploadFile);
 
     String upload(MultipartFile file);
     List<String> uploadPdf(MultipartFile file) throws IOException;

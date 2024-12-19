@@ -27,8 +27,8 @@ public class CommonController {
     @PostMapping(value = "/upload/pfImg")
     @ResponseBody
     @Operation(summary = "图片上传")
-    public Result<FileUrlVO> upload(@RequestBody MultipartFile file) {
-        return Result.ok(commonService.upload(file));
+    public Result<FileUrlVO> uploadPf(@RequestBody MultipartFile file) {
+        return Result.ok(commonService.uploadPf(file));
     }
 
 
