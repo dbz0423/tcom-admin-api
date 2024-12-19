@@ -47,6 +47,9 @@ public class CommonServiceImpl implements CommonService {
     private PdfService pdfService;
     @Resource
     private final OssConfig ossConfig;
+    @Resource
+    private OSSClient ossClient;
+
     private static final String[] IMAGE_TYPE = new String[]{".bmp", ".jpg",".jpeg", ".gif", ".png"};
     private static final String IMAGE_TYPE_PDF = new String(".pdf");
 
@@ -57,7 +60,7 @@ public class CommonServiceImpl implements CommonService {
   
   
  @Override
-    public FileUrlVO upload(MultipartFile uploadFile) {
+    public FileUrlVO uploadPf(MultipartFile uploadFile) {
 
         String returnImgUrl = "";
 
